@@ -1,0 +1,111 @@
+{
+  "cap_nhat_luc": "18/11/2026 14:47:20",
+  "tong_so": 21,
+  "users": [
+    {
+      "username": "970438001",
+      "ho_ten": "BĐ ĐÔNG HOÀNG",
+      "pass_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+    },
+    {
+      "username": "970438002",
+      "ho_ten": "BĐ THIỆU ĐÔ",
+      "pass_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+    },
+    {
+      "username": "970438003",
+      "ho_ten": "BĐ THIỆU VIÊN",
+      "pass_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+    },
+    {
+      "username": "970438004",
+      "ho_ten": "BĐ THIỆU CHÂU",
+      "pass_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+    },
+    {
+      "username": "970438005",
+      "ho_ten": "BĐ THIỆU LONG",
+      "pass_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+    },
+    {
+      "username": "970438006",
+      "ho_ten": "BĐ THIỆU THỊNH",
+      "pass_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+    },
+    {
+      "username": "970438007",
+      "ho_ten": "BĐ THIỆU LÝ",
+      "pass_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+    },
+    {
+      "username": "970438008",
+      "ho_ten": "BĐ THIỆU THÀNH",
+      "pass_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+    },
+    {
+      "username": "970438010",
+      "ho_ten": "BĐ THIỆU TOÁN",
+      "pass_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+    },
+    {
+      "username": "970438011",
+      "ho_ten": "BĐ THIỆU NGUYÊN",
+      "pass_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+    },
+    {
+      "username": "970438012",
+      "ho_ten": "BĐ THIỆU TIẾN",
+      "pass_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+    },
+    {
+      "username": "970438013",
+      "ho_ten": "BĐ THIỆU PHÚ",
+      "pass_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+    },
+    {
+      "username": "970438014",
+      "ho_ten": "BĐ THIỆU QUANG",
+      "pass_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+    },
+    {
+      "username": "970438015",
+      "ho_ten": "BĐ THIỆU HỢP",
+      "pass_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+    },
+    {
+      "username": "970438016",
+      "ho_ten": "BĐ THIỆU DUY",
+      "pass_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+    },
+    {
+      "username": "970438017",
+      "ho_ten": "BĐ THIỆU MINH",
+      "pass_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+    },
+    {
+      "username": "970438018",
+      "ho_ten": "BĐ XUÂN PHONG",
+      "pass_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+    },
+    {
+      "username": "970438019",
+      "ho_ten": "BĐ THIỆU GIANG",
+      "pass_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+    },
+    {
+      "username": "970438020",
+      "ho_ten": "BĐ THIỆU CÔNG",
+      "pass_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+    },
+    {
+      "username": "970998001",
+      "ho_ten": "ỦY NHIỆM CHI",
+      "pass_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+    },
+    {
+      "username": "970998002",
+      "ho_ten": "ĐỖ NGỌC HẠNH",
+      "pass_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+    }
+  ]
+}
