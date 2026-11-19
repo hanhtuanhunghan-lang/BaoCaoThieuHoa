@@ -50,6 +50,12 @@
       "chuc_vu": "Trưởng Điện lực",
       "la_truong_don_vi": true,
       "tieu_de_ky_html": "TRƯỞNG ĐIỆN LỰC"
+    },
+    {
+      "ho_ten": "Nguyễn Xuân Lâm",
+      "chuc_vu": "Phó Trưởng Điện Lực",
+      "la_truong_don_vi": false,
+      "tieu_de_ky_html": "KT. TRƯỞNG ĐIỆN LỰC<br>PHÓ TRƯỞNG ĐIỆN LỰC"
     }
   ],
   "phan_to_theo_ma": {
@@ -117,7 +123,9 @@
     "970998001 ủy nhiệm chi": "Chưa phân tổ",
     "ủy nhiệm chi": "Chưa phân tổ",
     "970998002 đỗ ngọc hạnh": "Chưa phân tổ",
-    "đỗ ngọc hạnh": "Chưa phân tổ"
+    "đỗ ngọc hạnh": "Chưa phân tổ",
+    "970998002 ủy nhiệm chi 2": "Chưa phân tổ",
+    "ủy nhiệm chi 2": "Chưa phân tổ"
   }
 };
         window.DYNAMIC_PHAN_TO = {};
@@ -1900,6 +1908,7 @@
                             <select id="select-lanh-dao" class="bg-white border border-slate-200 text-slate-700 font-bold px-3 py-2 rounded-xl shadow-sm focus:border-evnBlue outline-none text-xs md:text-sm border-l-4 border-l-blue-500">
 
                                 <option value="Hoàng Thị Yến">Hoàng Thị Yến - Trưởng Điện lực</option>
+                                <option value="Nguyễn Xuân Lâm">Nguyễn Xuân Lâm - Phó Trưởng Điện Lực</option>
                             </select>
 
                         </div>
@@ -3950,6 +3959,7 @@ function layTenTo(tenTNV) {
 function hienThiTenThuNgan(tenTNV) {
     const raw = String(tenTNV || '').trim();
     const parts = raw.split(/\s+/);
+    if (parts[0] === '970998002') return 'ỦY NHIỆM CHI 2';
     if (parts.length > 1) {
         const firstLower = parts[0].toLowerCase();
         const codeMap = window.UNIT_CONFIG.phan_to_theo_ma || {};
