@@ -5516,59 +5516,70 @@ function copyTextBaoCaoDongBo(text) {
 function taoThanhNutMoZaloHTML() {
     return `
         <div class="mt-2.5 flex flex-wrap items-center gap-2">
-            <button type="button" onclick="guiLaiTinNhanBaoCaoZalo()" class="px-3.5 py-2 rounded-xl bg-evnBlue hover:bg-blue-800 text-white font-extrabold text-xs shadow-sm">📤 Chia sẻ Zalo lại</button>
+            <button type="button" onclick="xuatVaChiaSeBaoCaoGhiChu('zalo')" class="px-3.5 py-2 rounded-xl bg-evnBlue hover:bg-blue-800 text-white font-extrabold text-xs shadow-sm">📤 Gửi lại tệp sang Zalo</button>
+            <button type="button" onclick="xuatVaChiaSeBaoCaoGhiChu('download')" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-sm">📥 Tải bản .xlsx</button>
         </div>
     `;
 }
 
-function xuLyDuPhongKhongCoShare(msg, tenFile, isMobile) {
+function dinhDangOCsvAnToan(val, laCotDinhDanh) {
+    if (val === null || val === undefined || val === '') return '';
+    let s = String(val);
+    if (laCotDinhDanh && /^0\d+$/.test(s)) {
+        // Giữ nguyên số 0 đầu (ví dụ 00123, 0914524232) khi mở tệp CSV bằng Excel
+        s = `="${s}"`;
+    } else if (/^[=+\-@\t\r]/.test(s)) {
+        // Ngăn Excel hiểu nhầm ghi chú tự do thành công thức
+        s = `'${s}`;
+    }
+    if (/[",\r\n]/.test(s)) {
+        return `"${s.replace(/"/g, '""')}"`;
+    }
+    return s;
+}
+
+function taoNoiDungCsvBaoCaoGhiChu(ketQua) {
+    const aoa = Array.isArray(ketQua && ketQua.aoa) ? ketQua.aoa : [];
+    const headers = Array.isArray(ketQua && ketQua.headers) ? ketQua.headers : [];
+    const tapCotDinhDanh = new Set();
+    headers.forEach((h, idx) => {
+        const chuan = boDauTenCot(h);
+        if (chuan.includes('ma khach hang') || chuan.includes('ma diem do') || chuan.includes('so dien thoai') || chuan.includes('so cot')) {
+            tapCotDinhDanh.add(idx);
+        }
+    });
+
+    const lines = aoa.map((row, rowIdx) => {
+        if (!Array.isArray(row) || row.length === 0) return '';
+        return row.map((cell, colIdx) => {
+            const laCotDinhDanh = rowIdx >= 6 && tapCotDinhDanh.has(colIdx);
+            return dinhDangOCsvAnToan(cell, laCotDinhDanh);
+        }).join(',');
+    });
+
+    // UTF-8 BOM để Excel trên máy tính và điện thoại hiển thị chuẩn tiếng Việt có dấu
+    return `\uFEFF${lines.join('\r\n')}`;
+}
+
+function xuLyDuPhongKhongCoShareFile(tenFile, isMobile) {
     const proto = (typeof window !== 'undefined' && window.location && window.location.protocol) || '';
     const dangMoFileNgoaiTuyen = proto === 'content:' || proto === 'file:';
     const ghiChuNgoaiTuyen = dangMoFileNgoaiTuyen
-        ? '<br><span class="text-amber-800 font-semibold">Lưu ý: Bạn đang mở tệp HTML trực tiếp (content:// / file://) nên điện thoại tắt bảng chia sẻ nhanh; hãy mở qua link web https:// để bật bảng chia sẻ Zalo.</span>'
+        ? '<br><span class="text-amber-800 font-semibold">Lưu ý: Bạn đang mở tệp HTML trực tiếp (content:// / file://) nên điện thoại khóa chia sẻ tệp; hãy mở qua link web https:// để bật bảng chọn Zalo.</span>'
         : '';
     const thanhNut = taoThanhNutMoZaloHTML();
 
-    const hienThongBao = (daCopy) => {
-        hienThongBaoXuatBaoCao(
-            `✅ Đã tải tệp Excel <b>${thoatHtmlThongBao(tenFile)}</b>${daCopy ? ' và copy sẵn nội dung báo cáo' : ''}.<br>` +
-            `<span class="font-normal">Mở <b>Zalo</b> → chọn người/nhóm → bấm <b>Dán</b> để gửi báo cáo, hoặc bấm <b>đính kèm tệp</b> chọn tệp Excel vừa tải. Lịch sử ghi chú trên máy vẫn được giữ nguyên.</span>${ghiChuNgoaiTuyen}${thanhNut}`,
-            'success'
-        );
-        // Chỉ tự gọi zalo:// trên máy tính (Desktop); trên điện thoại giữ nguyên trang web, không đẩy sang zalo.me
-        if (!isMobile) {
-            try {
-                window.location.href = 'zalo://';
-            } catch (e) {}
-        }
-    };
+    hienThongBaoXuatBaoCao(
+        `📥 Trình duyệt này không hỗ trợ gửi trực tiếp tệp từ web nên đã tải tệp Excel <b>${thoatHtmlThongBao(tenFile)}</b> về máy.<br>` +
+        `<span class="font-normal">Cách gửi: Mở ứng dụng <b>Zalo</b> → chọn người/nhóm → bấm biểu tượng <b>đính kèm tệp</b> → chọn tệp vừa tải trong mục Tải xuống. Lịch sử ghi chú trên máy vẫn được giữ nguyên.</span>${ghiChuNgoaiTuyen}${thanhNut}`,
+        'info'
+    );
 
-    if (typeof navigator !== 'undefined' && navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
-        navigator.clipboard.writeText(msg).then(() => hienThongBao(true)).catch(() => {
-            hienThongBao(copyTextBaoCaoDongBo(msg));
-        });
-        return;
-    }
-
-    hienThongBao(copyTextBaoCaoDongBo(msg));
-}
-
-async function guiLaiTinNhanBaoCaoZalo() {
-    if (!tinNhanBaoCaoZaloGanNhat) return { status: 'empty' };
-    const { text, tenFile } = tinNhanBaoCaoZaloGanNhat;
-    const isMobile = /iPhone|iPad|iPod|Android/i.test((typeof navigator !== 'undefined' && navigator.userAgent) || '');
-    if (typeof navigator !== 'undefined' && typeof navigator.share === 'function' && isMobile) {
+    if (!isMobile) {
         try {
-            await navigator.share({ text });
-            return { status: 'shared-text', tenFile };
-        } catch (error) {
-            if (error && error.name === 'AbortError') {
-                return { status: 'aborted', tenFile };
-            }
-        }
+            window.location.href = 'zalo://';
+        } catch (e) {}
     }
-    xuLyDuPhongKhongCoShare(text, tenFile, isMobile);
-    return { status: 'fallback-copy', tenFile };
 }
 
 async function xuatVaChiaSeBaoCaoGhiChu(cheDo) {
@@ -5595,85 +5606,83 @@ async function xuatVaChiaSeBaoCaoGhiChu(cheDo) {
     });
 
     const excelBytes = XLSX.write(ketQua.workbook, { bookType: 'xlsx', type: 'array' });
-    const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-    const blob = new Blob([excelBytes], { type: mimeType });
+    const mimeXlsx = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+    const blobXlsx = new Blob([excelBytes], { type: mimeXlsx });
 
     if (cheDo === 'zalo') {
-        const msgZalo = taoNoiDungTinNhanBaoCaoGhiChu(dsLoc, ketQua);
-        tinNhanBaoCaoZaloGanNhat = { text: msgZalo, tenFile: ketQua.tenFile };
         const ua = (typeof navigator !== 'undefined' && navigator.userAgent) || '';
-        const isAndroid = /Android/i.test(ua);
-        const isIOS = /iPhone|iPad|iPod/i.test(ua);
-        const isMobile = isAndroid || isIOS;
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(ua);
         const thanhNut = taoThanhNutMoZaloHTML();
+        const coWebShareFile = typeof File === 'function'
+            && typeof navigator !== 'undefined'
+            && typeof navigator.canShare === 'function'
+            && typeof navigator.share === 'function';
 
-        // Trên iOS: ưu tiên chia sẻ trực tiếp tệp .xlsx nếu Safari cho phép (chỉ gọi navigator.share 1 lần duy nhất)
-        if (isIOS && typeof File === 'function' && typeof navigator !== 'undefined' && typeof navigator.canShare === 'function' && typeof navigator.share === 'function') {
-            let file = null;
-            let coTheChiaSeFile = false;
+        // Kiểm tra đồng bộ định dạng tệp được trình duyệt cho phép chia sẻ để chỉ gọi navigator.share() 1 lần duy nhất
+        // (giữ nguyên transient user activation):
+        // - Ưu tiên 1: tệp .xlsx (được iPhone Safari hỗ trợ trực tiếp)
+        // - Ưu tiên 2: tệp bảng tính .csv chuẩn UTF-8 BOM mở bằng Excel (được Chrome Android hỗ trợ trực tiếp vì Chrome Android chặn đuôi .xlsx)
+        let fileDeChiaSe = null;
+        let loaiFileChiaSe = '';
+
+        if (coWebShareFile) {
             try {
-                file = new File([blob], ketQua.tenFile, { type: mimeType });
-                coTheChiaSeFile = Boolean(navigator.canShare({ files: [file] }));
-            } catch (e) {
-                coTheChiaSeFile = false;
-            }
-
-            if (coTheChiaSeFile && file) {
-                try {
-                    await navigator.share({ files: [file] });
-                    hienThongBaoXuatBaoCao(
-                        `✅ Đã tạo tệp <b>${thoatHtmlThongBao(ketQua.tenFile)}</b> và mở bảng chia sẻ sang <b>Zalo</b>. Lịch sử ghi chú trên máy vẫn được giữ nguyên.${thanhNut}`,
-                        'success'
-                    );
-                    return { status: 'shared', tenFile: ketQua.tenFile };
-                } catch (error) {
-                    if (error && error.name === 'AbortError') {
-                        hienThongBaoXuatBaoCao(
-                            `ℹ️ Bạn đã hủy chia sẻ. Dữ liệu ghi chú trên máy vẫn được giữ nguyên.${thanhNut}`,
-                            'info'
-                        );
-                        return { status: 'aborted', tenFile: ketQua.tenFile };
-                    }
-                    taiFileBlobBaoCao(blob, ketQua.tenFile);
-                    xuLyDuPhongKhongCoShare(msgZalo, ketQua.tenFile, isMobile);
-                    return { status: 'fallback-copy', tenFile: ketQua.tenFile };
+                const fileXlsx = new File([blobXlsx], ketQua.tenFile, { type: mimeXlsx });
+                if (navigator.canShare({ files: [fileXlsx] })) {
+                    fileDeChiaSe = fileXlsx;
+                    loaiFileChiaSe = 'xlsx';
                 }
+            } catch (e) {}
+
+            if (!fileDeChiaSe) {
+                try {
+                    const tenFileCsv = ketQua.tenFile.replace(/\.xlsx$/i, '.csv');
+                    const csvContent = taoNoiDungCsvBaoCaoGhiChu(ketQua);
+                    const fileCsv = new File([csvContent], tenFileCsv, { type: 'text/csv' });
+                    if (navigator.canShare({ files: [fileCsv] })) {
+                        fileDeChiaSe = fileCsv;
+                        loaiFileChiaSe = 'csv';
+                    }
+                } catch (e) {}
             }
         }
 
-        // Trên điện thoại (đặc biệt Android): gọi thẳng navigator.share({ text: msgZalo }) y hệt nút "Báo cáo Zalo / Tổ đội"
-        // để bật ngay bảng "Chia sẻ văn bản" có danh sách nhóm Zalo, sau đó tải sẵn tệp .xlsx về máy
-        if (typeof navigator !== 'undefined' && typeof navigator.share === 'function' && isMobile) {
+        if (fileDeChiaSe) {
             try {
-                await navigator.share({ text: msgZalo });
-                taiFileBlobBaoCao(blob, ketQua.tenFile);
+                // Chỉ truyền { files } để Zalo Android/iOS nhận đúng là chia sẻ TỆP đính kèm, không biến thành tin nhắn văn bản
+                await navigator.share({ files: [fileDeChiaSe] });
+                if (loaiFileChiaSe === 'xlsx') {
+                    hienThongBaoXuatBaoCao(
+                        `✅ Đã mở bảng chia sẻ tệp Excel <b>${thoatHtmlThongBao(fileDeChiaSe.name)}</b> sang <b>Zalo</b>. Lịch sử ghi chú trên máy vẫn được giữ nguyên.${thanhNut}`,
+                        'success'
+                    );
+                    return { status: 'shared-xlsx', tenFile: fileDeChiaSe.name };
+                }
                 hienThongBaoXuatBaoCao(
-                    `✅ Đã mở bảng chia sẻ sang <b>Zalo</b> và lưu sẵn tệp Excel <b>${thoatHtmlThongBao(ketQua.tenFile)}</b> về máy.<br>` +
-                    `<span class="font-normal">Nếu cần đính kèm thêm bản Excel trong Zalo, chọn biểu tượng <b>đính kèm tệp</b> → chọn tệp vừa tải trong mục Tải xuống. Lịch sử ghi chú trên máy vẫn được giữ nguyên.</span>${thanhNut}`,
+                    `✅ Đã mở bảng chia sẻ tệp bảng tính <b>${thoatHtmlThongBao(fileDeChiaSe.name)}</b> (mở trực tiếp bằng Excel) sang <b>Zalo</b>.<br>` +
+                    `<span class="font-normal">Lưu ý: Trình duyệt Chrome trên Android chặn chia sẻ trực tiếp đuôi .xlsx từ web nên hệ thống tự gửi tệp bảng tính .csv (chuẩn tiếng Việt UTF-8, giữ số 0 đầu). Nếu cần đúng tệp .xlsx, bấm nút <b>Tải bản .xlsx</b> bên dưới. Lịch sử ghi chú trên máy vẫn được giữ nguyên.</span>${thanhNut}`,
                     'success'
                 );
-                return { status: 'downloaded-and-shared-text', tenFile: ketQua.tenFile };
+                return { status: 'shared-csv', tenFile: fileDeChiaSe.name };
             } catch (error) {
                 if (error && error.name === 'AbortError') {
                     hienThongBaoXuatBaoCao(
-                        `ℹ️ Bạn đã hủy chia sẻ. Dữ liệu ghi chú trên máy vẫn được giữ nguyên.${thanhNut}`,
+                        `ℹ️ Bạn đã hủy chia sẻ tệp. Dữ liệu ghi chú trên máy vẫn được giữ nguyên.${thanhNut}`,
                         'info'
                     );
-                    return { status: 'aborted', tenFile: ketQua.tenFile };
+                    return { status: 'aborted', tenFile: fileDeChiaSe.name };
                 }
-                taiFileBlobBaoCao(blob, ketQua.tenFile);
-                xuLyDuPhongKhongCoShare(msgZalo, ketQua.tenFile, isMobile);
-                return { status: 'fallback-copy', tenFile: ketQua.tenFile };
+                // Nếu hệ điều hành/trình duyệt báo lỗi khác khi chia sẻ tệp -> tải bản .xlsx về máy
             }
         }
 
-        // Máy tính hoặc trình duyệt không hỗ trợ navigator.share
-        taiFileBlobBaoCao(blob, ketQua.tenFile);
-        xuLyDuPhongKhongCoShare(msgZalo, ketQua.tenFile, isMobile);
-        return { status: isMobile ? 'fallback-copy' : 'downloaded-and-zalo-link', tenFile: ketQua.tenFile };
+        // Trình duyệt không hỗ trợ chia sẻ tệp (Desktop hoặc mở file HTML ngoại tuyến content://) -> tải .xlsx
+        taiFileBlobBaoCao(blobXlsx, ketQua.tenFile);
+        xuLyDuPhongKhongCoShareFile(ketQua.tenFile, isMobile);
+        return { status: 'fallback-download', tenFile: ketQua.tenFile };
     }
 
-    taiFileBlobBaoCao(blob, ketQua.tenFile);
+    taiFileBlobBaoCao(blobXlsx, ketQua.tenFile);
     hienThongBaoXuatBaoCao(
         `✅ Đã tải tệp báo cáo <b>${thoatHtmlThongBao(ketQua.tenFile)}</b> (${dsLoc.length} lượt ghi chú). Lịch sử ghi chú trên máy vẫn được giữ nguyên.`,
         'success'
