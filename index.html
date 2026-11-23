@@ -5611,28 +5611,33 @@ async function xuatVaChiaSeBaoCaoGhiChu(cheDo) {
 
     if (cheDo === 'zalo') {
         const ua = (typeof navigator !== 'undefined' && navigator.userAgent) || '';
-        const isMobile = /iPhone|iPad|iPod|Android/i.test(ua);
+        const isIOS = /iPhone|iPad|iPod/i.test(ua);
+        const isAndroid = /Android/i.test(ua);
+        const isMobile = isIOS || isAndroid;
         const thanhNut = taoThanhNutMoZaloHTML();
         const coWebShareFile = typeof File === 'function'
             && typeof navigator !== 'undefined'
             && typeof navigator.canShare === 'function'
             && typeof navigator.share === 'function';
 
-        // Kiểm tra đồng bộ định dạng tệp được trình duyệt cho phép chia sẻ để chỉ gọi navigator.share() 1 lần duy nhất
-        // (giữ nguyên transient user activation):
-        // - Ưu tiên 1: tệp .xlsx (được iPhone Safari hỗ trợ trực tiếp)
-        // - Ưu tiên 2: tệp bảng tính .csv chuẩn UTF-8 BOM mở bằng Excel (được Chrome Android hỗ trợ trực tiếp vì Chrome Android chặn đuôi .xlsx)
+        // Lưu ý kỹ thuật Chromium (share_service_impl.cc):
+        // Trên Chrome Android, navigator.canShare({ files: [.xlsx] }) vẫn có thể trả true ở renderer,
+        // nhưng browser process chặn cứng đuôi .xlsx (trả NotAllowedError / PERMISSION_DENIED) và làm mất user activation.
+        // Trong khi đó đuôi .csv (text/csv) nằm trong danh sách cho phép của Chromium và mở trực tiếp bằng Excel.
+        // Vì vậy: iOS ưu tiên gửi thẳng .xlsx; Android/Chromium chọn thẳng tệp bảng tính .csv (UTF-8 BOM) cho Web Share.
         let fileDeChiaSe = null;
         let loaiFileChiaSe = '';
 
         if (coWebShareFile) {
-            try {
-                const fileXlsx = new File([blobXlsx], ketQua.tenFile, { type: mimeXlsx });
-                if (navigator.canShare({ files: [fileXlsx] })) {
-                    fileDeChiaSe = fileXlsx;
-                    loaiFileChiaSe = 'xlsx';
-                }
-            } catch (e) {}
+            if (isIOS) {
+                try {
+                    const fileXlsx = new File([blobXlsx], ketQua.tenFile, { type: mimeXlsx });
+                    if (navigator.canShare({ files: [fileXlsx] })) {
+                        fileDeChiaSe = fileXlsx;
+                        loaiFileChiaSe = 'xlsx';
+                    }
+                } catch (e) {}
+            }
 
             if (!fileDeChiaSe) {
                 try {
@@ -5660,7 +5665,7 @@ async function xuatVaChiaSeBaoCaoGhiChu(cheDo) {
                 }
                 hienThongBaoXuatBaoCao(
                     `✅ Đã mở bảng chia sẻ tệp bảng tính <b>${thoatHtmlThongBao(fileDeChiaSe.name)}</b> (mở trực tiếp bằng Excel) sang <b>Zalo</b>.<br>` +
-                    `<span class="font-normal">Lưu ý: Trình duyệt Chrome trên Android chặn chia sẻ trực tiếp đuôi .xlsx từ web nên hệ thống tự gửi tệp bảng tính .csv (chuẩn tiếng Việt UTF-8, giữ số 0 đầu). Nếu cần đúng tệp .xlsx, bấm nút <b>Tải bản .xlsx</b> bên dưới. Lịch sử ghi chú trên máy vẫn được giữ nguyên.</span>${thanhNut}`,
+                    `<span class="font-normal">Lưu ý: Chrome trên Android chặn web chia sẻ trực tiếp đuôi .xlsx nên hệ thống gửi tệp bảng tính .csv (chuẩn tiếng Việt UTF-8, giữ số 0 đầu). Nếu cần đúng tệp .xlsx, bấm nút <b>Tải bản .xlsx</b> bên dưới. Lịch sử ghi chú trên máy vẫn được giữ nguyên.</span>${thanhNut}`,
                     'success'
                 );
                 return { status: 'shared-csv', tenFile: fileDeChiaSe.name };
@@ -5672,7 +5677,14 @@ async function xuatVaChiaSeBaoCaoGhiChu(cheDo) {
                     );
                     return { status: 'aborted', tenFile: fileDeChiaSe.name };
                 }
-                // Nếu hệ điều hành/trình duyệt báo lỗi khác khi chia sẻ tệp -> tải bản .xlsx về máy
+                const maLoi = error && error.name ? ` (${error.name})` : '';
+                taiFileBlobBaoCao(blobXlsx, ketQua.tenFile);
+                hienThongBaoXuatBaoCao(
+                    `📥 Không thể mở bảng chia sẻ tệp trực tiếp${thoatHtmlThongBao(maLoi)} nên đã tải tệp Excel <b>${thoatHtmlThongBao(ketQua.tenFile)}</b> về máy.<br>` +
+                    `<span class="font-normal">Cách gửi: Mở ứng dụng <b>Zalo</b> → chọn người/nhóm → bấm biểu tượng <b>đính kèm tệp</b> → chọn tệp vừa tải trong mục Tải xuống. Lịch sử ghi chú trên máy vẫn được giữ nguyên.</span>${thanhNut}`,
+                    'info'
+                );
+                return { status: 'fallback-download', tenFile: ketQua.tenFile, errorName: error && error.name ? error.name : '' };
             }
         }
 
