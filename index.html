@@ -706,7 +706,9 @@
 
             #tab-in-tb,
 
-            #tab-tong-hop {
+            #tab-tong-hop,
+
+            #tab-bao-cao {
 
                 max-width: 100%;
 
@@ -1293,6 +1295,7 @@
             #in-dong-tong { display: block !important; }
 
             #vung-in-thong-bao { display: none; }
+            #modal-ghi-chu { display: none !important; }
             body.dang-in-thong-bao > *:not(#vung-in-thong-bao) { display: none !important; }
             body.dang-in-thong-bao * { visibility: hidden !important; }
             body.dang-in-thong-bao #vung-in-thong-bao, body.dang-in-thong-bao #vung-in-thong-bao * { visibility: visible !important; }
@@ -1482,6 +1485,17 @@
 
         </a>
 
+        <a id="btn-nav-bao-cao" onclick="chuyenTab('bao-cao')" class="flex cursor-pointer text-slate-400 hover:text-white hover:bg-white/5 rounded-xl items-center justify-between gap-2 px-4 py-3.5 border-l-4 border-transparent transition-all hover:translate-x-1" href="javascript:void(0)">
+
+            <span class="flex items-center gap-3">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                <span class="font-bold text-sm">Báo cáo ghi chú</span>
+            </span>
+
+            <span id="badge-nav-bao-cao" class="hidden bg-evnOrange text-white text-[10px] font-extrabold px-2 py-0.5 rounded-full">0</span>
+
+        </a>
+
         <a id="btn-nav-in-tb" onclick="chuyenTab('in-tb')" class="hidden md:flex cursor-pointer text-slate-400 hover:text-white hover:bg-white/5 rounded-xl items-center gap-3 px-4 py-3.5 border-l-4 border-transparent transition-all hover:translate-x-1" href="javascript:void(0)">
 
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
@@ -1505,6 +1519,17 @@
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
 
         <span class="text-[10px] font-bold mt-1 uppercase tracking-wider">Dư nợ</span>
+
+    </a>
+
+    <a id="btn-bot-bao-cao" onclick="chuyenTab('bao-cao')" class="flex-1 py-3 flex flex-col items-center justify-center text-slate-500 border-t-2 border-transparent transition-all relative">
+
+        <span class="relative inline-flex">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            <span id="badge-bot-bao-cao" class="hidden absolute -top-1.5 -right-2.5 bg-evnOrange text-white text-[9px] font-extrabold px-1.5 py-0.2 rounded-full leading-tight">0</span>
+        </span>
+
+        <span class="text-[10px] font-bold mt-1 uppercase tracking-wider">Báo cáo</span>
 
     </a>
 
@@ -2032,6 +2057,120 @@
 
             </div>
 
+            <!-- TAB 4: BÁO CÁO GHI CHÚ KHÁCH HÀNG -->
+
+            <div id="tab-bao-cao" class="hidden">
+
+                <section class="glass-card rounded-2xl shadow-xl p-4 md:p-6 flex flex-col gap-5">
+
+                    <div class="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-4 border-b border-slate-100 pb-5">
+
+                        <div>
+
+                            <h2 class="text-base md:text-xl font-bold text-slate-800 flex items-center gap-2 uppercase">
+
+                                <span class="w-2.5 h-6 bg-evnOrange rounded-full inline-block"></span>
+
+                                Báo cáo Ghi chú Khách hàng
+
+                            </h2>
+
+                            <p class="text-xs text-slate-500 font-semibold mt-1">Tổng hợp từng lượt ghi chú theo thời gian để xuất Excel gửi Zalo cuối ngày.</p>
+
+                            <div class="mt-2.5 inline-flex items-start gap-2 bg-amber-50 border border-amber-200 text-amber-900 rounded-xl px-3 py-2 text-xs font-semibold">
+                                <span class="shrink-0">⚠️</span>
+                                <span>Dữ liệu ghi chú chỉ lưu trên trình duyệt của thiết bị này. Đổi điện thoại, đổi trình duyệt hoặc xóa dữ liệu web sẽ không tự đồng bộ lịch sử sang.</span>
+                            </div>
+
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2.5 shrink-0">
+
+                            <button id="btn-xuat-gui-zalo-ghichu" type="button" onclick="xuatVaChiaSeBaoCaoGhiChu('zalo')" class="bg-gradient-to-r from-evnBlue to-[#004080] hover:from-[#004080] hover:to-evnDark text-white font-extrabold px-4 py-3 rounded-xl shadow-md transition-all flex items-center justify-center gap-2 text-xs md:text-sm">
+
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
+
+                                <span>Xuất Excel &amp; Gửi Zalo</span>
+
+                            </button>
+
+                            <button id="btn-tai-excel-ghichu" type="button" onclick="xuatVaChiaSeBaoCaoGhiChu('download')" class="bg-emerald-600 hover:bg-emerald-700 text-white border border-emerald-700 font-bold px-4 py-3 rounded-xl shadow-sm transition-all flex items-center justify-center gap-2 text-xs md:text-sm">
+
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+
+                                <span>Tải file Excel</span>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Thông báo kết quả xuất / hướng dẫn gửi Zalo (đặt ngay dưới nút để điện thoại thấy ngay) -->
+
+                    <div id="thong-bao-xuat-baocao" class="hidden rounded-xl border px-4 py-3 text-xs md:text-sm font-semibold"></div>
+
+                    <!-- Bộ lọc báo cáo -->
+
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-3 bg-slate-50/90 border border-slate-200/80 p-3.5 rounded-2xl">
+
+                        <div class="md:col-span-3 flex flex-col gap-1">
+                            <label for="filter-baocao-chedo" class="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider">Phạm vi ngày</label>
+                            <select id="filter-baocao-chedo" onchange="xuLyDoiCheDoNgayBaoCao()" class="bg-white border border-slate-200 text-slate-700 font-bold px-3 py-2.5 rounded-xl shadow-sm focus:border-evnBlue outline-none text-xs md:text-sm">
+                                <option value="theo-ngay">Theo ngày cụ thể</option>
+                                <option value="tat-ca">Tất cả các ngày</option>
+                                <option value="chua-xac-dinh">Ghi chú cũ (chưa rõ thời gian)</option>
+                            </select>
+                        </div>
+
+                        <div id="wrap-filter-baocao-ngay" class="md:col-span-3 flex flex-col gap-1">
+                            <label for="filter-baocao-ngay" class="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider">Ngày báo cáo</label>
+                            <input type="date" id="filter-baocao-ngay" onchange="capNhatTabBaoCao()" class="bg-white border border-slate-200 text-slate-700 font-bold px-3 py-2.5 rounded-xl shadow-sm focus:border-evnBlue outline-none text-xs md:text-sm">
+                        </div>
+
+                        <div class="md:col-span-3 flex flex-col gap-1">
+                            <label for="filter-baocao-tnv" class="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider">Thu ngân viên</label>
+                            <select id="filter-baocao-tnv" onchange="capNhatTabBaoCao()" class="bg-white border border-slate-200 text-slate-700 font-bold px-3 py-2.5 rounded-xl shadow-sm focus:border-evnBlue outline-none text-xs md:text-sm border-l-4 border-l-evnBlue">
+                                <option value="">-- Tất cả Thu ngân viên --</option>
+                            </select>
+                        </div>
+
+                        <div class="md:col-span-3 flex flex-col gap-1">
+                            <label for="filter-baocao-tim" class="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider">Tìm nhanh</label>
+                            <input type="text" id="filter-baocao-tim" oninput="capNhatTabBaoCao()" placeholder="Mã KH, tên KH, ghi chú..." class="bg-white border border-slate-200 text-slate-700 font-semibold px-3 py-2.5 rounded-xl shadow-sm focus:border-evnBlue outline-none text-xs md:text-sm">
+                        </div>
+
+                    </div>
+
+                    <!-- Tóm tắt nhanh -->
+
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+
+                        <div class="bg-blue-50/70 border border-blue-100 rounded-xl px-3.5 py-3">
+                            <div class="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider">Lượt ghi chú</div>
+                            <div id="baocao-tong-luot" class="text-xl md:text-2xl font-black text-evnBlue mt-0.5">0</div>
+                        </div>
+
+                        <div class="bg-orange-50/70 border border-orange-100 rounded-xl px-3.5 py-3">
+                            <div class="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider">Số khách hàng</div>
+                            <div id="baocao-tong-kh" class="text-xl md:text-2xl font-black text-evnOrangeDark mt-0.5">0</div>
+                        </div>
+
+                        <div class="col-span-2 md:col-span-1 bg-slate-50 border border-slate-200/80 rounded-xl px-3.5 py-3">
+                            <div class="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider">Thu ngân viên</div>
+                            <div id="baocao-ten-tnv" class="text-sm md:text-base font-extrabold text-slate-700 mt-1 truncate">Tất cả Thu ngân viên</div>
+                        </div>
+
+                    </div>
+
+                    <!-- Danh sách xem trước -->
+
+                    <div id="danh-sach-bao-cao-ghichu" class="w-full"></div>
+
+                </section>
+
+            </div>
+
 
 
         </div>
@@ -2045,6 +2184,86 @@
 <!-- Khu vực in thông báo ẩn -->
 
 <div id="vung-in-thong-bao" class="hidden"></div>
+
+<!-- MODAL GHI CHÚ KHÁCH HÀNG + GIỌNG NÓI -->
+
+<div id="modal-ghi-chu" class="hidden fixed inset-0 z-[9000] bg-slate-950/65 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4" role="dialog" aria-modal="true" aria-labelledby="modal-ghi-chu-tieu-de">
+
+    <div class="w-full sm:max-w-lg bg-white rounded-t-3xl sm:rounded-2xl shadow-2xl border border-slate-200 max-h-[92vh] flex flex-col overflow-hidden">
+
+        <div class="bg-gradient-to-r from-evnBlue to-evnDark px-5 py-4 text-white flex items-center justify-between gap-3 shrink-0">
+
+            <div class="min-w-0">
+                <h3 id="modal-ghi-chu-tieu-de" class="text-base font-extrabold tracking-tight flex items-center gap-2">
+                    <span>📌</span>
+                    <span>Ghi chú khách hàng</span>
+                </h3>
+                <p id="modal-ghi-chu-sub" class="text-[11px] text-blue-100 font-semibold mt-0.5 truncate"></p>
+            </div>
+
+            <button type="button" onclick="dongModalGhiChu()" aria-label="Đóng hộp thoại ghi chú" class="w-8 h-8 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center font-black text-base transition-all shrink-0">✕</button>
+
+        </div>
+
+        <div class="p-4 sm:p-5 overflow-y-auto flex-1 flex flex-col gap-4">
+
+            <!-- Thông tin khách hàng -->
+            <div id="modal-ghi-chu-kh-info" class="bg-slate-50 border border-slate-200/80 rounded-xl p-3 text-xs flex flex-col gap-1"></div>
+
+            <!-- Chọn nhanh trạng thái -->
+            <div class="flex flex-col gap-2">
+                <span class="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider">Chọn nhanh trạng thái</span>
+                <div class="flex flex-wrap gap-2">
+                    <button type="button" onclick="chenMauGhiChuNhanh('Đã cắt điện')" class="px-3 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-800 border border-rose-200 text-xs font-bold transition-all">⚡ Đã cắt điện</button>
+                    <button type="button" onclick="chenMauGhiChuNhanh('Đã đóng điện')" class="px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs font-bold transition-all">💡 Đã đóng điện</button>
+                    <button type="button" onclick="chenMauGhiChuNhanh('Đã liên hệ, hẹn nộp')" class="px-3 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-800 border border-blue-200 text-xs font-bold transition-all">📞 Hẹn nộp</button>
+                    <button type="button" onclick="chenMauGhiChuNhanh('Không gặp khách hàng')" class="px-3 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold transition-all">🏠 Không gặp</button>
+                </div>
+            </div>
+
+            <!-- Ô nhập ghi chú & Giọng nói -->
+            <div class="flex flex-col gap-2">
+                <div class="flex items-center justify-between gap-2">
+                    <label for="input-ghi-chu-noi-dung" class="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider">Nội dung ghi chú</label>
+                    <button type="button" id="btn-xoa-o-ghi-chu" onclick="xoaTrangOGhiChu()" class="text-[11px] font-bold text-slate-400 hover:text-rose-600 transition-colors">Xóa trắng ô nhập</button>
+                </div>
+
+                <textarea id="input-ghi-chu-noi-dung" rows="3" placeholder="Ví dụ: Đã cắt điện lúc 8h15, hoặc bấm nút micro bên dưới để đọc..." class="w-full px-3.5 py-2.5 rounded-xl border-2 border-slate-200 focus:border-evnBlue outline-none text-sm font-semibold text-slate-800 resize-y"></textarea>
+
+                <div class="flex flex-wrap items-center gap-2">
+                    <button type="button" id="btn-giong-noi-ghi-chu" onclick="batTatNhanDangGiongNoi()" class="px-3.5 py-2.5 rounded-xl bg-orange-50 hover:bg-orange-100 text-evnOrangeDark border border-orange-200 font-extrabold text-xs flex items-center gap-2 transition-all">
+                        <span id="icon-giong-noi">🎤</span>
+                        <span id="nhan-giong-noi">Nhập bằng giọng nói</span>
+                    </button>
+                    <span class="text-[11px] text-slate-500 font-medium">Kiểm tra lại nội dung trước khi bấm Lưu.</span>
+                </div>
+
+                <div id="trang-thai-giong-noi" class="hidden rounded-xl border px-3 py-2 text-xs font-semibold"></div>
+
+                <p class="text-[11px] text-slate-400 leading-relaxed">
+                    Lưu ý: Một số trình duyệt xử lý nhận dạng giọng nói qua dịch vụ trực tuyến. Nếu trình duyệt không hỗ trợ nút micro, bạn vẫn có thể nhập tay hoặc dùng micro trên bàn phím điện thoại.
+                </p>
+            </div>
+
+            <!-- Lịch sử ghi chú của khách hàng -->
+            <div class="border-t border-slate-100 pt-3 flex flex-col gap-2">
+                <div class="flex items-center justify-between">
+                    <span class="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider">Lịch sử ghi chú khách hàng này</span>
+                    <span id="modal-ghi-chu-dem-lich-su" class="text-[11px] font-bold text-evnBlue"></span>
+                </div>
+                <div id="lich-su-ghi-chu-kh" class="flex flex-col gap-2 max-h-44 overflow-y-auto pr-1"></div>
+            </div>
+
+        </div>
+
+        <div class="px-4 sm:px-5 py-3.5 bg-slate-50 border-t border-slate-200 flex items-center justify-end gap-2.5 shrink-0">
+            <button type="button" id="btn-dong-ghi-chu-modal" onclick="dongModalGhiChu()" class="px-4 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-slate-600 border border-slate-200 font-bold text-xs md:text-sm transition-all">Đóng</button>
+            <button type="button" id="btn-luu-ghi-chu-modal" onclick="luuGhiChuTuModal()" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-evnBlue to-[#004080] hover:from-[#004080] hover:to-evnDark text-white font-extrabold text-xs md:text-sm shadow-md transition-all">💾 Lưu ghi chú</button>
+        </div>
+
+    </div>
+
+</div>
 
 
 
@@ -2165,7 +2384,11 @@ function chuyenTab(tabName) {
 
     document.getElementById('tab-tong-hop').classList.remove('block');
 
-    
+    let tabBaoCao = document.getElementById('tab-bao-cao');
+    if (tabBaoCao) {
+        tabBaoCao.classList.add('hidden');
+        tabBaoCao.classList.remove('block');
+    }
 
     let tabInTb = document.getElementById('tab-in-tb'); 
 
@@ -2195,11 +2418,20 @@ function chuyenTab(tabName) {
 
     const classActive = "flex cursor-pointer bg-gradient-to-r from-evnBlue to-[#004080] text-white rounded-xl shadow-md items-center gap-3 px-4 py-3.5 border-l-4 border-evnOrange transition-all hover:translate-x-1";
 
+    const classInactiveBaoCao = "flex cursor-pointer text-slate-400 hover:text-white hover:bg-white/5 rounded-xl items-center justify-between gap-2 px-4 py-3.5 border-l-4 border-transparent transition-all hover:translate-x-1";
+
+    const classActiveBaoCao = "flex cursor-pointer bg-gradient-to-r from-evnBlue to-[#004080] text-white rounded-xl shadow-md items-center justify-between gap-2 px-4 py-3.5 border-l-4 border-evnOrange transition-all hover:translate-x-1";
+
     
 
     document.getElementById('btn-nav-du-no').className = (tabName === 'du-no' ? classActive : classInactive);
 
     document.getElementById('btn-nav-tong-hop').className = (tabName === 'tong-hop' ? classActive : classInactive);
+
+    let btnNavBaoCao = document.getElementById('btn-nav-bao-cao');
+    if (btnNavBaoCao) {
+        btnNavBaoCao.className = (tabName === 'bao-cao' ? classActiveBaoCao : classInactiveBaoCao);
+    }
 
     
 
@@ -2213,11 +2445,13 @@ function chuyenTab(tabName) {
 
 
 
-    const botInactive = "flex-1 py-3 flex flex-col items-center justify-center text-slate-500 border-t-2 border-transparent transition-all";
+    const botInactive = "flex-1 py-3 flex flex-col items-center justify-center text-slate-500 border-t-2 border-transparent transition-all relative";
 
-    const botActive = "flex-1 py-3 flex flex-col items-center justify-center text-evnBlue border-t-2 border-evnBlue bg-blue-50/40 transition-all";
+    const botActive = "flex-1 py-3 flex flex-col items-center justify-center text-evnBlue border-t-2 border-evnBlue bg-blue-50/40 transition-all relative";
 
     const btnBotDuNo = document.getElementById('btn-bot-du-no'); 
+
+    const btnBotBaoCao = document.getElementById('btn-bot-bao-cao');
 
     const btnBotTongHop = document.getElementById('btn-bot-tong-hop');
 
@@ -2225,11 +2459,18 @@ function chuyenTab(tabName) {
 
     if (btnBotDuNo) btnBotDuNo.className = (tabName === 'du-no' ? botActive : botInactive);
 
+    if (btnBotBaoCao) btnBotBaoCao.className = (tabName === 'bao-cao' ? botActive : botInactive);
+
     if (btnBotTongHop) btnBotTongHop.className = (tabName === 'tong-hop' ? botActive : botInactive);
 
 
 
     if (tabName === 'du-no' && dataTableDuNo === null) taiDuLieuDuNo();
+
+    if (tabName === 'bao-cao') {
+        capNhatBoLocTNVBaoCao();
+        capNhatTabBaoCao();
+    }
 
     if (tabName === 'tong-hop') { 
 
@@ -2259,9 +2500,79 @@ function chuyenTab(tabName) {
 
 const STORAGE_KEY = `evn_duno_ticks_${window.UNIT_CONFIG.unit_id}`;
 const STORAGE_NOTE_KEY = `evn_duno_notes_${window.UNIT_CONFIG.unit_id}`;
+const STORAGE_NOTE_HISTORY_KEY = `evn_duno_note_history_${window.UNIT_CONFIG.unit_id}`;
 const STORAGE_TICK_BACKUP_KEY = `${STORAGE_KEY}_previous_month`;
+const NHAN_THOI_GIAN_CHUA_XAC_DINH = 'Chưa xác định thời gian';
 let danhSachTickCache = new Set(); 
 let dictGhiChu = {};
+let lichSuGhiChu = { version: 1, migratedLegacyKeys: {}, entries: [] };
+
+function chuoiAnToanKhongEpKhong(value) {
+    if (value === null || value === undefined) return '';
+    return String(value).trim();
+}
+
+function dinhDangThoiGianVN(dateInput) {
+    const date = dateInput instanceof Date ? dateInput : new Date(dateInput || Date.now());
+    if (Number.isNaN(date.getTime())) {
+        return {
+            iso: null,
+            ngayISO: null,
+            ngayVN: '',
+            gioVN: '',
+            hienThi: NHAN_THOI_GIAN_CHUA_XAC_DINH,
+            fileStamp: 'khong-ro-thoi-gian'
+        };
+    }
+
+    let year, month, day, hour, minute, second;
+    try {
+        const parts = new Intl.DateTimeFormat('en-GB', {
+            timeZone: 'Asia/Ho_Chi_Minh',
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false
+        }).formatToParts(date);
+        const map = {};
+        parts.forEach(p => { if (p.type !== 'literal') map[p.type] = p.value; });
+        year = map.year;
+        month = map.month;
+        day = map.day;
+        hour = map.hour === '24' ? '00' : map.hour;
+        minute = map.minute;
+        second = map.second;
+    } catch (e) {
+        const vnDate = new Date(date.getTime() + 7 * 60 * 60 * 1000);
+        year = String(vnDate.getUTCFullYear());
+        month = String(vnDate.getUTCMonth() + 1).padStart(2, '0');
+        day = String(vnDate.getUTCDate()).padStart(2, '0');
+        hour = String(vnDate.getUTCHours()).padStart(2, '0');
+        minute = String(vnDate.getUTCMinutes()).padStart(2, '0');
+        second = String(vnDate.getUTCSeconds()).padStart(2, '0');
+    }
+
+    const ngayISO = `${year}-${month}-${day}`;
+    const ngayVN = `${day}/${month}/${year}`;
+    const gioVN = `${hour}:${minute}:${second}`;
+    return {
+        iso: date.toISOString(),
+        ngayISO,
+        ngayVN,
+        gioVN,
+        hienThi: `${gioVN} ${ngayVN}`,
+        fileStamp: `${ngayISO}_${hour}-${minute}-${second}`
+    };
+}
+
+function dinhDangNgayISOThanhVN(ngayISO) {
+    if (!ngayISO || !/^\d{4}-\d{2}-\d{2}$/.test(String(ngayISO))) return '';
+    const [y, m, d] = String(ngayISO).split('-');
+    return `${d}/${m}/${y}`;
+}
 
 function layKyThangHienTai() {
     const homNay = new Date();
@@ -2269,7 +2580,12 @@ function layKyThangHienTai() {
 }
 
 function docTrangThaiTickThangHienTai() {
-    let data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    let data = {};
+    try {
+        data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}') || {};
+    } catch (e) {
+        data = {};
+    }
     const kyThangHienTai = layKyThangHienTai();
 
     if (data.kyThang !== kyThangHienTai) {
@@ -2287,10 +2603,152 @@ function docTrangThaiTickThangHienTai() {
     return data;
 }
 
+const EVN_COLUMN_ALIASES = {
+    maKH: ['ma khach hang', 'ma kh', 'ma_khang', 'ma_kh'],
+    tenKH: ['ten khach hang', 'ten kh', 'ten_khang', 'ten_kh'],
+    maDiemDo: ['ma diem do', 'ma ddo', 'ma_ddo', 'ma_diem_do', 'maddo', 'diem do', 'diem_do'],
+    diaChi: ['dia chi', 'dia_chi', 'dchi', 'dchi_khang'],
+    sdt: ['so dien thoai', 'so_dien_thoai', 'dien thoai', 'dien_thoai', 'sdt', 'so_dt', 'dt'],
+    tram: ['ten tram', 'ten_tram', 'ma_tram', 'tram'],
+    cot: ['so cot', 'so_cot', 'cot'],
+    soGCS: ['so gcs', 'so_gcs', 'sogcs', 'so ghi chi so', 'gcs'],
+    tien: ['tong tien', 'tong_tien', 'so tien', 'so_tien', 'no'],
+    tnv: ['thu ngan vien', 'thu_ngan_vien', 'thu ngan', 'thu_ngan', 'tnv']
+};
+
+function laySnapshotKhachHang(maKH, rowData) {
+    const maStr = chuoiAnToanKhongEpKhong(maKH);
+    let row = rowData && typeof rowData === 'object' ? rowData : null;
+    if (!row && Array.isArray(globalRecords) && globalRecords.length > 0 && maStr) {
+        row = globalRecords.find(r => {
+            const valMa = cotMaKH ? r[cotMaKH] : timGiaTriTheoTuKhoa(r, EVN_COLUMN_ALIASES.maKH);
+            return chuoiAnToanKhongEpKhong(valMa) === maStr;
+        }) || null;
+    }
+
+    const r = row || {};
+    const tenKH = chuoiAnToanKhongEpKhong((cotTenKH ? r[cotTenKH] : '') || timGiaTriTheoTuKhoa(r, EVN_COLUMN_ALIASES.tenKH));
+    const maDiemDo = chuoiAnToanKhongEpKhong((cotMaDDO_global ? r[cotMaDDO_global] : '') || timGiaTriTheoTuKhoa(r, EVN_COLUMN_ALIASES.maDiemDo));
+    const diaChi = chuoiAnToanKhongEpKhong((cotDiaChi_global ? r[cotDiaChi_global] : '') || timGiaTriTheoTuKhoa(r, EVN_COLUMN_ALIASES.diaChi));
+    const sdtRaw = (cotSDT_global ? r[cotSDT_global] : '') || timGiaTriTheoTuKhoa(r, EVN_COLUMN_ALIASES.sdt);
+    const sdt = dinhDangSoDienThoai(sdtRaw);
+    const tram = chuoiAnToanKhongEpKhong((cotTram_global ? r[cotTram_global] : '') || timGiaTriTheoTuKhoa(r, EVN_COLUMN_ALIASES.tram));
+    const cotRaw = chuoiAnToanKhongEpKhong((cotCot_global ? r[cotCot_global] : '') || timGiaTriTheoTuKhoa(r, EVN_COLUMN_ALIASES.cot));
+    const cot = cotRaw ? cotRaw.replace(/\.0$/, '').trim() : '';
+    const soGCS = chuoiAnToanKhongEpKhong(timGiaTriTheoTuKhoa(r, EVN_COLUMN_ALIASES.soGCS));
+    const tienRaw = cotTien_global && Object.prototype.hasOwnProperty.call(r, cotTien_global)
+        ? r[cotTien_global]
+        : timGiaTriTheoTuKhoa(r, EVN_COLUMN_ALIASES.tien);
+    const soTienNo = chuoiAnToanKhongEpKhong(tienRaw);
+    const thuNganVien = chuoiAnToanKhongEpKhong((cotTNV_global ? r[cotTNV_global] : '') || timGiaTriTheoTuKhoa(r, EVN_COLUMN_ALIASES.tnv));
+    const thuNganVienHienThi = thuNganVien ? hienThiTenThuNgan(thuNganVien) : '';
+
+    return {
+        maKH: maStr,
+        maDiemDo,
+        tenKH,
+        diaChi,
+        sdt,
+        tram,
+        cot,
+        soGCS,
+        soTienNo,
+        thuNganVien,
+        thuNganVienHienThi
+    };
+}
+
+function docDictGhiChuTuStorage() {
+    try {
+        const parsed = JSON.parse(localStorage.getItem(STORAGE_NOTE_KEY) || '{}');
+        return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : {};
+    } catch (e) {
+        return {};
+    }
+}
+
+function docLichSuGhiChuTuStorage() {
+    try {
+        const raw = localStorage.getItem(STORAGE_NOTE_HISTORY_KEY);
+        if (!raw) return { version: 1, migratedLegacyKeys: {}, entries: [] };
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) {
+            return { version: 1, migratedLegacyKeys: {}, entries: parsed };
+        }
+        return {
+            version: 1,
+            migratedLegacyKeys: parsed && typeof parsed.migratedLegacyKeys === 'object' && parsed.migratedLegacyKeys !== null ? parsed.migratedLegacyKeys : {},
+            entries: Array.isArray(parsed && parsed.entries) ? parsed.entries : []
+        };
+    } catch (e) {
+        return { version: 1, migratedLegacyKeys: {}, entries: [] };
+    }
+}
+
+function luuLichSuGhiChuXuongStorage() {
+    localStorage.setItem(STORAGE_NOTE_HISTORY_KEY, JSON.stringify(lichSuGhiChu));
+}
+
+function khoiTaoLichSuGhiChu() {
+    try {
+        dictGhiChu = JSON.parse(localStorage.getItem(STORAGE_NOTE_KEY) || '{}') || {};
+    } catch (e) {
+        dictGhiChu = {};
+    }
+    lichSuGhiChu = docLichSuGhiChuTuStorage();
+
+    let coThayDoi = false;
+    Object.entries(dictGhiChu).forEach(([maKH, noteVal]) => {
+        const maStr = chuoiAnToanKhongEpKhong(maKH);
+        const noiDung = chuoiAnToanKhongEpKhong(noteVal);
+        if (!maStr || !noiDung) return;
+
+        const daMigrateGiongHet = lichSuGhiChu.migratedLegacyKeys[maStr] === noiDung;
+        const daTonTaiTrongLichSu = lichSuGhiChu.entries.some(item => item && chuoiAnToanKhongEpKhong(item.maKH) === maStr && chuoiAnToanKhongEpKhong(item.noiDung) === noiDung);
+
+        if (!daMigrateGiongHet && !daTonTaiTrongLichSu) {
+            const snap = laySnapshotKhachHang(maStr, null);
+            lichSuGhiChu.entries.push({
+                id: `legacy_${maStr}_${lichSuGhiChu.entries.length + 1}`,
+                ...snap,
+                noiDung,
+                createdAt: null,
+                ngayBaoCao: null,
+                thoiGianHienThi: NHAN_THOI_GIAN_CHUA_XAC_DINH,
+                legacyUnknownTime: true
+            });
+            lichSuGhiChu.migratedLegacyKeys[maStr] = noiDung;
+            coThayDoi = true;
+        }
+    });
+
+    if (coThayDoi) {
+        luuLichSuGhiChuXuongStorage();
+    }
+}
+
+function boSungThongTinSnapshotGhiChuCu() {
+    if (!Array.isArray(globalRecords) || globalRecords.length === 0) return;
+    let coThayDoi = false;
+    lichSuGhiChu.entries.forEach(entry => {
+        if (!entry || !entry.legacyUnknownTime) return;
+        const snap = laySnapshotKhachHang(entry.maKH, null);
+        ['maDiemDo', 'tenKH', 'diaChi', 'sdt', 'tram', 'cot', 'soGCS', 'soTienNo', 'thuNganVien', 'thuNganVienHienThi'].forEach(field => {
+            if (!chuoiAnToanKhongEpKhong(entry[field]) && chuoiAnToanKhongEpKhong(snap[field])) {
+                entry[field] = snap[field];
+                coThayDoi = true;
+            }
+        });
+    });
+    if (coThayDoi) {
+        luuLichSuGhiChuXuongStorage();
+    }
+}
+
 function khoiTaoCacheTick() {
     let data = docTrangThaiTickThangHienTai();
     danhSachTickCache = new Set(data.dsMaKH || []);
-    dictGhiChu = JSON.parse(localStorage.getItem(STORAGE_NOTE_KEY) || '{}');
+    khoiTaoLichSuGhiChu();
 }
 
 function luuTrangThaiTick(maKH, isTick) {
@@ -2303,25 +2761,82 @@ function luuTrangThaiTick(maKH, isTick) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
 
+function taoBanGhiLichSuGhiChu(maKH, noteText, options) {
+    const opts = options || {};
+    const maStr = chuoiAnToanKhongEpKhong(maKH);
+    const noiDung = chuoiAnToanKhongEpKhong(noteText);
+    const snap = laySnapshotKhachHang(maStr, opts.rowData || null);
+    const thoiGian = dinhDangThoiGianVN(opts.thoiDiem || new Date());
+    const id = `note_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
 
-function luuGhiChu(maKH, noteText) {
+    return {
+        id,
+        ...snap,
+        noiDung,
+        createdAt: thoiGian.iso,
+        ngayBaoCao: thoiGian.ngayISO,
+        thoiGianHienThi: thoiGian.hienThi,
+        legacyUnknownTime: false
+    };
+}
 
-    if (!maKH) return; 
-
-    let maStr = String(maKH);
-
-    if (noteText && noteText.trim() !== '') {
-
-        dictGhiChu[maStr] = noteText.trim(); 
-
-    } else {
-
+function dongBoDictGhiChuTuLichSu(maKH) {
+    const maStr = chuoiAnToanKhongEpKhong(maKH);
+    if (!maStr) return;
+    const ds = lichSuGhiChu.entries.filter(item => item && chuoiAnToanKhongEpKhong(item.maKH) === maStr);
+    if (ds.length === 0) {
         delete dictGhiChu[maStr];
+    } else {
+        const moiNhat = ds.reduce((best, cur) => {
+            if (!best) return cur;
+            const tBest = best.createdAt ? Date.parse(best.createdAt) : -1;
+            const tCur = cur.createdAt ? Date.parse(cur.createdAt) : -1;
+            return tCur >= tBest ? cur : best;
+        }, null);
+        dictGhiChu[maStr] = moiNhat ? chuoiAnToanKhongEpKhong(moiNhat.noiDung) : '';
+        if (!dictGhiChu[maStr]) delete dictGhiChu[maStr];
+    }
+    localStorage.setItem(STORAGE_NOTE_KEY, JSON.stringify(dictGhiChu));
+}
 
+function luuGhiChu(maKH, noteText, options) {
+    if (maKH === null || maKH === undefined || String(maKH).trim() === '') return null;
+    const maStr = chuoiAnToanKhongEpKhong(maKH);
+    const noiDung = chuoiAnToanKhongEpKhong(noteText);
+
+    // Đọc thẳng trạng thái mới nhất từ localStorage làm nguồn sự thật rồi mới append entry mới,
+    // vừa không ghi đè mất lượt ghi chú từ tab khác vừa không hồi sinh lượt vừa bị tab khác xóa.
+    lichSuGhiChu = docLichSuGhiChuTuStorage();
+    dictGhiChu = docDictGhiChuTuStorage();
+
+    if (noiDung !== '') {
+        const entry = taoBanGhiLichSuGhiChu(maStr, noiDung, options);
+        lichSuGhiChu.entries.push(entry);
+        luuLichSuGhiChuXuongStorage();
+        dictGhiChu[maStr] = noiDung;
+        localStorage.setItem(STORAGE_NOTE_KEY, JSON.stringify(dictGhiChu));
+        if (typeof capNhatBadgeBaoCao === 'function') capNhatBadgeBaoCao();
+        return entry;
     }
 
+    delete dictGhiChu[maStr];
     localStorage.setItem(STORAGE_NOTE_KEY, JSON.stringify(dictGhiChu));
+    if (typeof capNhatBadgeBaoCao === 'function') capNhatBadgeBaoCao();
+    return null;
+}
 
+function xoaMotLuotGhiChu(entryId) {
+    lichSuGhiChu = docLichSuGhiChuTuStorage();
+    dictGhiChu = docDictGhiChuTuStorage();
+    const idx = lichSuGhiChu.entries.findIndex(item => item && item.id === entryId);
+    if (idx === -1) return false;
+    const removed = lichSuGhiChu.entries.splice(idx, 1)[0];
+    luuLichSuGhiChuXuongStorage();
+    if (removed && removed.maKH) {
+        dongBoDictGhiChuTuLichSu(removed.maKH);
+    }
+    if (typeof capNhatBadgeBaoCao === 'function') capNhatBadgeBaoCao();
+    return true;
 }
 
 
@@ -2329,6 +2844,7 @@ function luuGhiChu(maKH, noteText) {
 let dataTableDuNo = null;  
 
 let cotTNV_global = null, cotTien_global = null, cotTram_global = null, cotCot_global = null, cotSDT_global = null;
+let cotDiaChi_global = null, cotMaDDO_global = null;
 
 let cotMaKH = null, cotTenKH = null;
 let nguongLocTien = 0; 
@@ -2626,9 +3142,9 @@ async function taiDuLieuDuNo() {
         let rawRecords = json.du_lieu || [];
         const records = rawRecords.filter(r => {
 
-            let ma = String(docGiaTriTheoCot(r, ['ma khach hang', 'ma kh']) || '').trim();
+            let ma = String(docGiaTriTheoCot(r, EVN_COLUMN_ALIASES.maKH) || '').trim();
 
-            let ten = String(docGiaTriTheoCot(r, ['ten khach hang', 'ten kh']) || '').trim();
+            let ten = String(docGiaTriTheoCot(r, EVN_COLUMN_ALIASES.tenKH) || '').trim();
 
             if (!ma) return false; 
 
@@ -2671,17 +3187,22 @@ async function taiDuLieuDuNo() {
 
         const keys = Object.keys(records[0]);
 
-        cotTNV_global  = timCotTheoTuKhoa(keys, ['thu ngan vien', 'thu ngan', 'tnv']);
+        cotTNV_global  = timCotTheoTuKhoa(keys, EVN_COLUMN_ALIASES.tnv);
 
-        cotTien_global = timCotTheoTuKhoa(keys, ['tong tien', 'so tien', 'no']);
+        cotTien_global = timCotTheoTuKhoa(keys, EVN_COLUMN_ALIASES.tien);
 
-        cotTram_global = timCotTheoTuKhoa(keys, ['ten tram', 'tram']);
+        cotTram_global = timCotTheoTuKhoa(keys, EVN_COLUMN_ALIASES.tram);
 
-        cotCot_global  = timCotTheoTuKhoa(keys, ['so cot', 'cot']);
+        cotCot_global  = timCotTheoTuKhoa(keys, EVN_COLUMN_ALIASES.cot);
 
-        cotSDT_global  = timCotTheoTuKhoa(keys, ['so dien thoai', 'dien thoai', 'sdt', 'dt']);
-        cotMaKH        = timCotTheoTuKhoa(keys, ['ma khach hang', 'ma kh']);
-        cotTenKH       = timCotTheoTuKhoa(keys, ['ten khach hang', 'ten kh']);
+        cotSDT_global  = timCotTheoTuKhoa(keys, EVN_COLUMN_ALIASES.sdt);
+        cotDiaChi_global = timCotTheoTuKhoa(keys, EVN_COLUMN_ALIASES.diaChi);
+        cotMaDDO_global  = timCotTheoTuKhoa(keys, EVN_COLUMN_ALIASES.maDiemDo);
+        cotMaKH        = timCotTheoTuKhoa(keys, EVN_COLUMN_ALIASES.maKH);
+        cotTenKH       = timCotTheoTuKhoa(keys, EVN_COLUMN_ALIASES.tenKH);
+        boSungThongTinSnapshotGhiChuCu();
+        capNhatBoLocTNVBaoCao();
+        capNhatBadgeBaoCao();
         taoChiMucSDT(records);
 
 
@@ -2782,7 +3303,7 @@ async function taiDuLieuDuNo() {
 
                         let myNote = dictGhiChu[String(ma)] || ''; 
 
-                        let noteHtml = myNote ? `<div class="text-[11px] bg-rose-600 text-white px-2 py-0.5 rounded-md inline-flex items-center gap-1 mt-1.5 border border-rose-700 shadow-sm font-bold">📌 ${myNote}</div>` : '';
+                        let noteHtml = myNote ? `<div class="text-[11px] bg-rose-600 text-white px-2 py-0.5 rounded-md inline-flex items-center gap-1 mt-1.5 border border-rose-700 shadow-sm font-bold">📌 ${thoatHtmlThongBao(myNote)}</div>` : '';
 
                         return `
 
@@ -3153,39 +3674,15 @@ async function taiDuLieuDuNo() {
 
         $('#bang-duno tbody').off('click', '.btn-ghi-chu').on('click', '.btn-ghi-chu', function() {
 
-            let maKH = $(this).data('makh'); 
+            let trGoc = $(this).closest('tr').prev();
+            let row = dataTableDuNo ? dataTableDuNo.row(trGoc) : null;
+            let rowData = row ? row.data() : null;
+            let maKHAttr = $(this).attr('data-makh');
+            let maKH = (rowData && cotMaKH && rowData[cotMaKH] !== null && rowData[cotMaKH] !== undefined)
+                ? String(rowData[cotMaKH]).trim()
+                : String(maKHAttr || '').trim();
 
-            let noteCu = dictGhiChu[String(maKH)] || ''; 
-
-            let noteMoi = prompt('📝 GHI CHÚ CHO KHÁCH HÀNG MÃ ' + maKH + '\n(Để trống và bấm OK nếu muốn xóa ghi chú cũ):', noteCu);
-
-            
-
-            if (noteMoi !== null) { 
-
-                luuGhiChu(maKH, noteMoi); 
-
-                let trGoc = $(this).closest('tr').prev(); 
-
-                if (noteMoi.trim() !== '') trGoc.addClass('co-ghi-chu'); else trGoc.removeClass('co-ghi-chu'); 
-
-                
-
-                let row = dataTableDuNo.row(trGoc); 
-
-                if (row.child.isShown()) { 
-
-                    row.child.hide(); 
-
-                    trGoc.removeClass('bg-blue-50/40'); 
-
-                    trGoc.find('.btn-mo-rong').html(`<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg> XEM`).removeClass('bg-evnBlue text-white border-evnBlue').addClass('bg-white text-evnBlue border-slate-200'); 
-
-                } 
-
-                dataTableDuNo.draw(false); 
-
-            }
+            moModalGhiChu(maKH, rowData, trGoc);
 
         });
 
@@ -4094,8 +4591,1146 @@ $('#bang-tong-hop').on('click', '.btn-xem-tnv', function() {
 });
 
 
+// ============================================================================
+// MODULE GHI CHÚ CHI TIẾT, GIỌNG NÓI TIẾNG VIỆT & TAB BÁO CÁO EXCEL / ZALO
+// ============================================================================
+
+let trangThaiModalGhiChu = {
+    maKH: '',
+    rowData: null,
+    trGoc: null
+};
+
+let boNhanDangGiongNoi = null;
+let dangNgheGiongNoi = false;
+let dangChoKetThucGiongNoi = false;
+let vanBanTruocKhiNghe = '';
+
+function layLopNhanDangGiongNoi() {
+    if (typeof window === 'undefined') return null;
+    return window.SpeechRecognition || window.webkitSpeechRecognition || null;
+}
+
+function ghepNoiDungGiongNoi(vanBanGoc, doanMoi) {
+    const goc = String(vanBanGoc || '').trim();
+    const moi = String(doanMoi || '').trim();
+    if (!goc) return moi;
+    if (!moi) return goc;
+    return `${goc} ${moi}`;
+}
+
+function hienTrangThaiGiongNoi(noiDung, loai) {
+    const el = document.getElementById('trang-thai-giong-noi');
+    if (!el) return;
+    if (!noiDung) {
+        el.classList.add('hidden');
+        el.textContent = '';
+        return;
+    }
+    const mauTheoLoai = {
+        listening: 'bg-rose-50 border-rose-200 text-rose-800',
+        info: 'bg-blue-50 border-blue-200 text-blue-800',
+        warn: 'bg-amber-50 border-amber-200 text-amber-900',
+        error: 'bg-rose-50 border-rose-300 text-rose-800'
+    };
+    el.className = `rounded-xl border px-3 py-2 text-xs font-semibold ${mauTheoLoai[loai] || mauTheoLoai.info}`;
+    el.textContent = noiDung;
+}
+
+function capNhatNutGiongNoiUI(dangNghe) {
+    const btn = document.getElementById('btn-giong-noi-ghi-chu');
+    const icon = document.getElementById('icon-giong-noi');
+    const nhan = document.getElementById('nhan-giong-noi');
+    if (!btn || !icon || !nhan) return;
+
+    if (dangNghe) {
+        btn.className = 'px-3.5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white border border-rose-700 font-extrabold text-xs flex items-center gap-2 transition-all shadow-sm animate-pulse';
+        icon.textContent = '⏹️';
+        nhan.textContent = 'Dừng ghi âm';
+    } else {
+        btn.className = 'px-3.5 py-2.5 rounded-xl bg-orange-50 hover:bg-orange-100 text-evnOrangeDark border border-orange-200 font-extrabold text-xs flex items-center gap-2 transition-all';
+        icon.textContent = '🎤';
+        nhan.textContent = 'Nhập bằng giọng nói';
+    }
+}
+
+// Hủy ngay lập tức (dùng khi đóng modal, người dùng sửa tay/chọn mẫu/xóa trắng hoặc gặp lỗi)
+function dungNhanDangGiongNoi(huyBo) {
+    const rec = boNhanDangGiongNoi;
+    boNhanDangGiongNoi = null;
+    dangNgheGiongNoi = false;
+    dangChoKetThucGiongNoi = false;
+    capNhatNutGiongNoiUI(false);
+    if (rec) {
+        try {
+            rec.onresult = null;
+            rec.onerror = null;
+            rec.onend = null;
+            if (huyBo && typeof rec.abort === 'function') {
+                rec.abort();
+            } else if (typeof rec.stop === 'function') {
+                rec.stop();
+            }
+        } catch (e) {
+            // Bỏ qua lỗi khi phiên nghe đã kết thúc trước đó
+        }
+    }
+}
+
+// Dừng thu âm nhưng giữ onresult/onend để nhận nốt kết quả cuối cùng từ trình duyệt
+function ketThucNhanDangGiongNoi() {
+    const rec = boNhanDangGiongNoi;
+    dangNgheGiongNoi = false;
+    capNhatNutGiongNoiUI(false);
+    if (!rec) {
+        dangChoKetThucGiongNoi = false;
+        return;
+    }
+    dangChoKetThucGiongNoi = true;
+    hienTrangThaiGiongNoi('Đang hoàn tất nhận dạng giọng nói...', 'info');
+    try {
+        if (typeof rec.stop === 'function') {
+            rec.stop();
+        } else {
+            dungNhanDangGiongNoi(true);
+        }
+    } catch (e) {
+        dungNhanDangGiongNoi(true);
+    }
+}
+
+function dienGiaiLoiGiongNoi(errorCode) {
+    switch (errorCode) {
+        case 'not-allowed':
+        case 'service-not-allowed':
+            return 'Trình duyệt đang chặn quyền micro. Bạn có thể cấp quyền micro trong cài đặt, dùng nút micro trên bàn phím điện thoại hoặc nhập bằng tay.';
+        case 'no-speech':
+            return 'Chưa nghe thấy giọng nói. Bấm lại nút micro và nói rõ hơn, hoặc nhập bằng tay.';
+        case 'audio-capture':
+            return 'Không tìm thấy micro trên thiết bị. Bạn hãy nhập ghi chú bằng tay.';
+        case 'network':
+            return 'Lỗi kết nối mạng khi nhận dạng giọng nói. Hãy kiểm tra mạng hoặc nhập bằng tay.';
+        case 'aborted':
+            return '';
+        default:
+            return 'Không nhận dạng được giọng nói lúc này. Bạn vẫn có thể sửa hoặc nhập ghi chú bằng tay.';
+    }
+}
+
+function batTatNhanDangGiongNoi() {
+    if (dangNgheGiongNoi) {
+        ketThucNhanDangGiongNoi();
+        return;
+    }
+
+    if (dangChoKetThucGiongNoi) {
+        dungNhanDangGiongNoi(true);
+    }
+
+    const SpeechRecognitionCtor = layLopNhanDangGiongNoi();
+    const inputEl = document.getElementById('input-ghi-chu-noi-dung');
+    if (!SpeechRecognitionCtor) {
+        hienTrangThaiGiongNoi('Trình duyệt hiện tại không hỗ trợ nhập giọng nói trực tiếp (thường gặp khi mở trong Zalo hoặc một số trình duyệt cũ). Bạn có thể bấm nút micro trên bàn phím điện thoại, nhập tay, hoặc mở web bằng Chrome / Safari.', 'warn');
+        return;
+    }
+
+    try {
+        const recognition = new SpeechRecognitionCtor();
+        recognition.lang = 'vi-VN';
+        recognition.interimResults = true;
+        recognition.continuous = false;
+        recognition.maxAlternatives = 1;
+
+        vanBanTruocKhiNghe = inputEl ? inputEl.value : '';
+        boNhanDangGiongNoi = recognition;
+        dangNgheGiongNoi = true;
+        dangChoKetThucGiongNoi = false;
+        capNhatNutGiongNoiUI(true);
+        hienTrangThaiGiongNoi('Đang lắng nghe tiếng Việt... Hãy nói nội dung ghi chú (ví dụ: "Đã cắt điện lúc 8 giờ 15").', 'listening');
+
+        recognition.onresult = function(event) {
+            if (boNhanDangGiongNoi !== recognition) return;
+            let finalPart = '';
+            let interimPart = '';
+            const results = event && event.results ? event.results : [];
+            for (let i = 0; i < results.length; i++) {
+                const res = results[i];
+                const text = res && res[0] && res[0].transcript ? res[0].transcript : '';
+                if (res && res.isFinal) {
+                    finalPart += text;
+                } else {
+                    interimPart += text;
+                }
+            }
+            const ghep = ghepNoiDungGiongNoi(vanBanTruocKhiNghe, `${finalPart}${interimPart}`);
+            if (inputEl) inputEl.value = ghep;
+            if (interimPart.trim() && !dangChoKetThucGiongNoi) {
+                hienTrangThaiGiongNoi(`Đang nhận dạng: "${interimPart.trim()}"`, 'listening');
+            } else if (finalPart.trim()) {
+                hienTrangThaiGiongNoi('Đã chuyển giọng nói thành chữ. Hãy kiểm tra, chỉnh sửa nếu cần rồi bấm "Lưu ghi chú".', 'info');
+            }
+        };
+
+        recognition.onerror = function(event) {
+            if (boNhanDangGiongNoi !== recognition) return;
+            const code = event && event.error ? event.error : 'unknown';
+            dungNhanDangGiongNoi(false);
+            const msg = dienGiaiLoiGiongNoi(code);
+            if (msg) hienTrangThaiGiongNoi(msg, 'error');
+        };
+
+        recognition.onend = function() {
+            if (boNhanDangGiongNoi === recognition) {
+                const daDungThuCong = dangChoKetThucGiongNoi;
+                boNhanDangGiongNoi = null;
+                dangNgheGiongNoi = false;
+                dangChoKetThucGiongNoi = false;
+                capNhatNutGiongNoiUI(false);
+                if (daDungThuCong) {
+                    hienTrangThaiGiongNoi('Đã dừng nghe. Hãy kiểm tra lại nội dung rồi bấm "Lưu ghi chú".', 'info');
+                }
+            }
+        };
+
+        recognition.start();
+    } catch (error) {
+        dungNhanDangGiongNoi(true);
+        hienTrangThaiGiongNoi('Không khởi động được micro trên trình duyệt này. Bạn hãy nhập ghi chú bằng tay hoặc dùng micro trên bàn phím.', 'error');
+    }
+}
+
+function chenMauGhiChuNhanh(mauText) {
+    if (boNhanDangGiongNoi) {
+        dungNhanDangGiongNoi(true);
+        hienTrangThaiGiongNoi('Đã dừng micro để tránh ghi đè nội dung bạn vừa chọn.', 'info');
+    }
+    const inputEl = document.getElementById('input-ghi-chu-noi-dung');
+    if (!inputEl) return;
+    const hienTai = inputEl.value.trim();
+    if (!hienTai) {
+        inputEl.value = mauText;
+    } else if (!hienTai.toLowerCase().includes(mauText.toLowerCase())) {
+        inputEl.value = `${hienTai}, ${mauText}`;
+    }
+    inputEl.focus();
+}
+
+function xoaTrangOGhiChu() {
+    if (boNhanDangGiongNoi) {
+        dungNhanDangGiongNoi(true);
+        hienTrangThaiGiongNoi('', 'info');
+    }
+    const inputEl = document.getElementById('input-ghi-chu-noi-dung');
+    if (inputEl) {
+        inputEl.value = '';
+        inputEl.focus();
+    }
+}
+
+function renderLichSuTrongModal(maKH) {
+    const container = document.getElementById('lich-su-ghi-chu-kh');
+    const demEl = document.getElementById('modal-ghi-chu-dem-lich-su');
+    if (!container) return;
+
+    const maStr = chuoiAnToanKhongEpKhong(maKH);
+    const ds = lichSuGhiChu.entries
+        .filter(item => item && chuoiAnToanKhongEpKhong(item.maKH) === maStr)
+        .slice()
+        .sort((a, b) => {
+            const ta = a.createdAt ? Date.parse(a.createdAt) : -1;
+            const tb = b.createdAt ? Date.parse(b.createdAt) : -1;
+            return tb - ta;
+        });
+
+    if (demEl) {
+        demEl.textContent = ds.length > 0 ? `${ds.length} lượt đã lưu` : 'Chưa có lượt nào';
+    }
+
+    if (ds.length === 0) {
+        container.innerHTML = '<div class="text-xs text-slate-400 italic py-2">Khách hàng này chưa có lịch sử ghi chú nào trên thiết bị này.</div>';
+        return;
+    }
+
+    container.innerHTML = ds.map(item => `
+        <div class="bg-slate-50 border border-slate-200/80 rounded-xl px-3 py-2 flex items-start justify-between gap-2">
+            <div class="min-w-0 flex-1">
+                <div class="text-xs font-bold text-slate-800 break-words">${thoatHtmlThongBao(item.noiDung)}</div>
+                <div class="text-[11px] text-slate-500 font-semibold mt-0.5 flex flex-wrap items-center gap-1.5">
+                    <span>🕒 ${thoatHtmlThongBao(item.thoiGianHienThi || NHAN_THOI_GIAN_CHUA_XAC_DINH)}</span>
+                    ${item.maDiemDo ? `<span class="text-slate-300">|</span><span>ĐĐO: ${thoatHtmlThongBao(item.maDiemDo)}</span>` : ''}
+                </div>
+            </div>
+            <button type="button" data-entry-id="${thoatHtmlThongBao(item.id)}" onclick="xacNhanXoaLuotGhiChu(this.getAttribute('data-entry-id'), true)" class="text-[11px] font-bold text-rose-600 hover:text-rose-800 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-2 py-1 rounded-lg shrink-0 transition-colors">Xóa</button>
+        </div>
+    `).join('');
+}
+
+function moModalGhiChu(maKH, rowData, trGoc) {
+    const maStr = chuoiAnToanKhongEpKhong(maKH);
+    trangThaiModalGhiChu = {
+        maKH: maStr,
+        rowData: rowData || null,
+        trGoc: trGoc || null
+    };
+
+    const snap = laySnapshotKhachHang(maStr, rowData || null);
+    const subEl = document.getElementById('modal-ghi-chu-sub');
+    const infoEl = document.getElementById('modal-ghi-chu-kh-info');
+    const inputEl = document.getElementById('input-ghi-chu-noi-dung');
+    const modal = document.getElementById('modal-ghi-chu');
+
+    if (subEl) {
+        subEl.textContent = `${snap.tenKH || 'Khách hàng'} — Mã KH: ${snap.maKH || '--'}`;
+    }
+
+    if (infoEl) {
+        const dongPhu = [];
+        if (snap.maDiemDo) dongPhu.push(`<span>Mã ĐĐO: <b class="font-mono text-slate-700">${thoatHtmlThongBao(snap.maDiemDo)}</b></span>`);
+        if (snap.tram || snap.cot) dongPhu.push(`<span>Trạm/Cột: <b class="text-evnBlue">${thoatHtmlThongBao(snap.tram || '--')} / ${thoatHtmlThongBao(snap.cot || '--')}</b></span>`);
+        if (snap.sdt) dongPhu.push(`<span>SĐT: <b class="font-mono text-slate-700">${thoatHtmlThongBao(snap.sdt)}</b></span>`);
+        if (snap.thuNganVienHienThi) dongPhu.push(`<span>TNV: <b class="text-slate-700">${thoatHtmlThongBao(snap.thuNganVienHienThi)}</b></span>`);
+
+        infoEl.innerHTML = `
+            <div class="font-extrabold text-evnDark text-sm">${thoatHtmlThongBao(snap.tenKH || '--')}</div>
+            <div class="text-slate-600 font-semibold flex flex-wrap gap-x-3 gap-y-1">
+                <span>Mã KH: <b class="font-mono text-slate-800">${thoatHtmlThongBao(snap.maKH || '--')}</b></span>
+                ${dongPhu.join('')}
+            </div>
+            ${snap.diaChi ? `<div class="text-[11px] text-slate-500">Địa chỉ: ${thoatHtmlThongBao(snap.diaChi)}</div>` : ''}
+        `;
+    }
+
+    if (inputEl) {
+        inputEl.value = '';
+    }
+    dungNhanDangGiongNoi(true);
+    hienTrangThaiGiongNoi('', 'info');
+    renderLichSuTrongModal(maStr);
+
+    if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+    if (inputEl) {
+        setTimeout(() => { try { inputEl.focus(); } catch (e) {} }, 50);
+    }
+}
+
+function dongModalGhiChu() {
+    dungNhanDangGiongNoi(true);
+    hienTrangThaiGiongNoi('', 'info');
+    const modal = document.getElementById('modal-ghi-chu');
+    if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+}
+
+function capNhatDongSauKhiDoiGhiChu(maKH, trGoc) {
+    const maStr = chuoiAnToanKhongEpKhong(maKH);
+    const coNote = Boolean(dictGhiChu[maStr]);
+    if (trGoc && trGoc.length) {
+        if (coNote) trGoc.addClass('co-ghi-chu'); else trGoc.removeClass('co-ghi-chu');
+        if (dataTableDuNo) {
+            const row = dataTableDuNo.row(trGoc);
+            if (row && row.child && row.child.isShown()) {
+                row.child.hide();
+                trGoc.removeClass('bg-blue-50/40');
+                trGoc.find('.btn-mo-rong').html(`<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg> XEM`).removeClass('bg-evnBlue text-white border-evnBlue').addClass('bg-white text-evnBlue border-slate-200');
+            }
+        }
+    }
+    if (dataTableDuNo) {
+        dataTableDuNo.rows().every(function() {
+            const d = this.data();
+            const m = d && cotMaKH ? chuoiAnToanKhongEpKhong(d[cotMaKH]) : '';
+            if (m === maStr) {
+                const node = this.node();
+                if (node) {
+                    if (coNote) $(node).addClass('co-ghi-chu'); else $(node).removeClass('co-ghi-chu');
+                }
+                this.invalidate();
+            }
+        });
+        dataTableDuNo.draw(false);
+    }
+}
+
+function luuGhiChuTuModal() {
+    if (boNhanDangGiongNoi) {
+        dungNhanDangGiongNoi(true);
+    }
+    const inputEl = document.getElementById('input-ghi-chu-noi-dung');
+    const noiDung = inputEl ? inputEl.value.trim() : '';
+    if (!noiDung) {
+        hienTrangThaiGiongNoi('Vui lòng nhập nội dung ghi chú hoặc chọn trạng thái nhanh trước khi lưu.', 'warn');
+        if (inputEl) inputEl.focus();
+        return;
+    }
+
+    const maKH = trangThaiModalGhiChu.maKH;
+    luuGhiChu(maKH, noiDung, { rowData: trangThaiModalGhiChu.rowData });
+    capNhatDongSauKhiDoiGhiChu(maKH, trangThaiModalGhiChu.trGoc);
+    capNhatBoLocTNVBaoCao();
+    capNhatTabBaoCao();
+    dongModalGhiChu();
+}
+
+function xacNhanXoaLuotGhiChu(entryId, trongModal) {
+    if (!confirm('Xóa lượt ghi chú này khỏi lịch sử trên thiết bị?')) return;
+    const entry = lichSuGhiChu.entries.find(item => item && item.id === entryId);
+    const maKH = entry ? entry.maKH : '';
+    if (xoaMotLuotGhiChu(entryId)) {
+        capNhatDongSauKhiDoiGhiChu(maKH, null);
+        capNhatBoLocTNVBaoCao();
+        capNhatTabBaoCao();
+        if (trongModal && trangThaiModalGhiChu.maKH) {
+            renderLichSuTrongModal(trangThaiModalGhiChu.maKH);
+        }
+    }
+}
+
+function layKhoaThuNganBaoCao(tnvRaw, tnvDisplay) {
+    const raw = chuoiAnToanKhongEpKhong(tnvRaw);
+    const display = chuoiAnToanKhongEpKhong(tnvDisplay);
+    if (raw) return hienThiTenThuNgan(raw);
+    if (display) return hienThiTenThuNgan(display);
+    return '';
+}
+
+function layDanhSachTNVChoBaoCao() {
+    const tapTNV = new Set();
+    if (Array.isArray(globalRecords) && cotTNV_global) {
+        globalRecords.forEach(r => {
+            const ten = layKhoaThuNganBaoCao(r[cotTNV_global], '');
+            if (ten) tapTNV.add(ten);
+        });
+    }
+    if (lichSuGhiChu && Array.isArray(lichSuGhiChu.entries)) {
+        lichSuGhiChu.entries.forEach(entry => {
+            if (!entry) return;
+            const ten = layKhoaThuNganBaoCao(entry.thuNganVien, entry.thuNganVienHienThi);
+            if (ten) tapTNV.add(ten);
+        });
+    }
+    return Array.from(tapTNV).sort((a, b) => a.localeCompare(b, 'vi'));
+}
+
+function capNhatBoLocTNVBaoCao() {
+    const select = document.getElementById('filter-baocao-tnv');
+    if (!select) return;
+    const giaTriCu = select.value;
+    const dsTNV = layDanhSachTNVChoBaoCao();
+    let html = '<option value="">-- Tất cả Thu ngân viên --</option>';
+    dsTNV.forEach(ten => {
+        const esc = thoatHtmlThongBao(ten);
+        html += `<option value="${esc}">${esc}</option>`;
+    });
+    select.innerHTML = html;
+    if (giaTriCu && dsTNV.includes(giaTriCu)) {
+        select.value = giaTriCu;
+    }
+}
+
+function capNhatBadgeBaoCao() {
+    const homNay = dinhDangThoiGianVN(new Date()).ngayISO;
+    const soHomNay = (lichSuGhiChu && Array.isArray(lichSuGhiChu.entries))
+        ? lichSuGhiChu.entries.filter(item => item && !item.legacyUnknownTime && item.ngayBaoCao === homNay).length
+        : 0;
+
+    ['badge-nav-bao-cao', 'badge-bot-bao-cao'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (soHomNay > 0) {
+            el.textContent = String(soHomNay);
+            el.classList.remove('hidden');
+        } else {
+            el.textContent = '0';
+            el.classList.add('hidden');
+        }
+    });
+}
+
+function khoiTaoNgayMacDinhBaoCao() {
+    const inputNgay = document.getElementById('filter-baocao-ngay');
+    if (inputNgay && !inputNgay.value) {
+        inputNgay.value = dinhDangThoiGianVN(new Date()).ngayISO;
+    }
+}
+
+function xuLyDoiCheDoNgayBaoCao() {
+    const cheDoEl = document.getElementById('filter-baocao-chedo');
+    const wrapNgay = document.getElementById('wrap-filter-baocao-ngay');
+    const cheDo = cheDoEl ? cheDoEl.value : 'theo-ngay';
+    if (wrapNgay) {
+        if (cheDo === 'theo-ngay') {
+            wrapNgay.classList.remove('opacity-50', 'pointer-events-none');
+        } else {
+            wrapNgay.classList.add('opacity-50', 'pointer-events-none');
+        }
+    }
+    capNhatTabBaoCao();
+}
+
+function locLichSuGhiChuBaoCao(entries, boLoc) {
+    const opts = boLoc || {};
+    const cheDoNgay = opts.cheDoNgay || 'theo-ngay';
+    const ngayLoc = chuoiAnToanKhongEpKhong(opts.ngayISO);
+    const tnvLoc = chuoiAnToanKhongEpKhong(opts.tenTNV);
+    const tuKhoa = boDauTenCot(opts.tuKhoa || '');
+
+    return (entries || [])
+        .filter(item => {
+            if (!item || !chuoiAnToanKhongEpKhong(item.noiDung)) return false;
+
+            if (cheDoNgay === 'theo-ngay') {
+                if (item.legacyUnknownTime || !item.ngayBaoCao) return false;
+                if (ngayLoc && item.ngayBaoCao !== ngayLoc) return false;
+            } else if (cheDoNgay === 'chua-xac-dinh') {
+                if (!item.legacyUnknownTime) return false;
+            }
+
+            if (tnvLoc) {
+                const tnvEntry = layKhoaThuNganBaoCao(item.thuNganVien, item.thuNganVienHienThi);
+                if (tnvEntry !== tnvLoc) return false;
+            }
+
+            if (tuKhoa) {
+                const gop = boDauTenCot([
+                    item.maKH,
+                    item.maDiemDo,
+                    item.tenKH,
+                    item.diaChi,
+                    item.sdt,
+                    item.tram,
+                    item.cot,
+                    item.thuNganVien,
+                    item.thuNganVienHienThi,
+                    item.noiDung
+                ].join(' '));
+                if (!gop.includes(tuKhoa)) return false;
+            }
+
+            return true;
+        })
+        .slice()
+        .sort((a, b) => {
+            if (a.legacyUnknownTime && !b.legacyUnknownTime) return 1;
+            if (!a.legacyUnknownTime && b.legacyUnknownTime) return -1;
+            const ta = a.createdAt ? Date.parse(a.createdAt) : 0;
+            const tb = b.createdAt ? Date.parse(b.createdAt) : 0;
+            return ta - tb;
+        });
+}
+
+function layBoLocBaoCaoHienTai() {
+    khoiTaoNgayMacDinhBaoCao();
+    const cheDoEl = document.getElementById('filter-baocao-chedo');
+    const ngayEl = document.getElementById('filter-baocao-ngay');
+    const tnvEl = document.getElementById('filter-baocao-tnv');
+    const timEl = document.getElementById('filter-baocao-tim');
+
+    return {
+        cheDoNgay: cheDoEl ? cheDoEl.value : 'theo-ngay',
+        ngayISO: ngayEl ? ngayEl.value : dinhDangThoiGianVN(new Date()).ngayISO,
+        tenTNV: tnvEl ? tnvEl.value : '',
+        tuKhoa: timEl ? timEl.value : ''
+    };
+}
+
+function xacDinhTenTNVChoXuatBaoCao(entries, tenTNVChon) {
+    if (chuoiAnToanKhongEpKhong(tenTNVChon)) {
+        return chuoiAnToanKhongEpKhong(tenTNVChon);
+    }
+    const dsTNV = [...new Set((entries || [])
+        .map(item => layKhoaThuNganBaoCao(item.thuNganVien, item.thuNganVienHienThi))
+        .filter(Boolean))];
+    if (dsTNV.length === 1) return dsTNV[0];
+    if (dsTNV.length === 0 && currentUser && chuoiAnToanKhongEpKhong(currentUser.ho_ten)) {
+        return chuoiAnToanKhongEpKhong(currentUser.ho_ten);
+    }
+    return 'Tất cả Thu ngân viên';
+}
+
+function capNhatTabBaoCao() {
+    const boLoc = layBoLocBaoCaoHienTai();
+    const dsLoc = locLichSuGhiChuBaoCao(lichSuGhiChu.entries, boLoc);
+    const soKHDuyNhat = new Set(dsLoc.map(item => `${item.maKH}||${item.maDiemDo || ''}`)).size;
+    const tenTNVHienThi = xacDinhTenTNVChoXuatBaoCao(dsLoc, boLoc.tenTNV);
+
+    const tongLuotEl = document.getElementById('baocao-tong-luot');
+    const tongKHEl = document.getElementById('baocao-tong-kh');
+    const tenTNVEl = document.getElementById('baocao-ten-tnv');
+    const listEl = document.getElementById('danh-sach-bao-cao-ghichu');
+
+    if (tongLuotEl) tongLuotEl.textContent = String(dsLoc.length);
+    if (tongKHEl) tongKHEl.textContent = String(soKHDuyNhat);
+    if (tenTNVEl) tenTNVEl.textContent = tenTNVHienThi;
+    capNhatBadgeBaoCao();
+
+    if (!listEl) return;
+
+    if (dsLoc.length === 0) {
+        const goiY = boLoc.cheDoNgay === 'theo-ngay'
+            ? `Chưa có lượt ghi chú nào trong ngày ${dinhDangNgayISOThanhVN(boLoc.ngayISO) || '--'}. Bạn có thể chuyển "Phạm vi ngày" sang "Tất cả các ngày" hoặc "Ghi chú cũ" để kiểm tra.`
+            : 'Chưa có lượt ghi chú nào khớp bộ lọc hiện tại.';
+        listEl.innerHTML = `
+            <div class="bg-slate-50 border border-dashed border-slate-300 rounded-2xl p-8 text-center">
+                <div class="text-2xl mb-2">📋</div>
+                <div class="text-sm font-bold text-slate-700">Chưa có dữ liệu báo cáo</div>
+                <div class="text-xs text-slate-500 mt-1 max-w-md mx-auto">${thoatHtmlThongBao(goiY)}</div>
+            </div>
+        `;
+        return;
+    }
+
+    const coMaDiemDo = Boolean(cotMaDDO_global) || dsLoc.some(item => chuoiAnToanKhongEpKhong(item.maDiemDo) !== '');
+
+    const mobileCardsHtml = `
+        <div class="flex flex-col gap-3 md:hidden">
+            ${dsLoc.map((item, idx) => {
+                const tnvShow = layKhoaThuNganBaoCao(item.thuNganVien, item.thuNganVienHienThi) || '--';
+                return `
+                    <div class="bg-white border border-slate-200 rounded-2xl p-3.5 shadow-sm flex flex-col gap-2">
+                        <div class="flex items-start justify-between gap-2">
+                            <div class="min-w-0">
+                                <div class="text-xs font-extrabold text-evnBlue">#${idx + 1} · ${thoatHtmlThongBao(item.tenKH || '--')}</div>
+                                <div class="text-[11px] text-slate-500 font-semibold mt-0.5 flex flex-wrap gap-x-2 gap-y-0.5">
+                                    <span>Mã KH: <b class="font-mono text-slate-700">${thoatHtmlThongBao(item.maKH || '--')}</b></span>
+                                    ${coMaDiemDo && item.maDiemDo ? `<span>ĐĐO: <b class="font-mono text-slate-700">${thoatHtmlThongBao(item.maDiemDo)}</b></span>` : ''}
+                                    ${item.sdt ? `<span>SĐT: <b class="font-mono text-slate-700">${thoatHtmlThongBao(item.sdt)}</b></span>` : ''}
+                                </div>
+                            </div>
+                            <button type="button" data-entry-id="${thoatHtmlThongBao(item.id)}" onclick="xacNhanXoaLuotGhiChu(this.getAttribute('data-entry-id'), false)" class="text-[11px] font-bold text-rose-600 bg-rose-50 border border-rose-200 px-2 py-1 rounded-lg shrink-0">Xóa</button>
+                        </div>
+                        <div class="bg-rose-50/80 border border-rose-200/80 text-rose-900 rounded-xl px-3 py-2 text-xs font-bold break-words">
+                            📌 ${thoatHtmlThongBao(item.noiDung)}
+                        </div>
+                        <div class="text-[11px] text-slate-500 font-semibold flex flex-wrap justify-between gap-1 pt-1 border-t border-slate-100">
+                            <span>🕒 ${thoatHtmlThongBao(item.thoiGianHienThi || NHAN_THOI_GIAN_CHUA_XAC_DINH)}</span>
+                            <span>👤 ${thoatHtmlThongBao(tnvShow)}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('')}
+        </div>
+    `;
+
+    const desktopTableHtml = `
+        <div class="hidden md:block overflow-x-auto w-full border border-slate-200 rounded-2xl shadow-sm bg-white">
+            <table class="w-full text-left border-collapse text-xs">
+                <thead>
+                    <tr class="bg-gradient-to-r from-evnBlue to-evnDark text-white uppercase tracking-wider text-[11px]">
+                        <th class="py-3 px-3 text-center w-12">STT</th>
+                        <th class="py-3 px-3">Mã KH</th>
+                        ${coMaDiemDo ? '<th class="py-3 px-3">Mã ĐĐO</th>' : ''}
+                        <th class="py-3 px-3">Khách hàng</th>
+                        <th class="py-3 px-3">Trạm / Cột</th>
+                        <th class="py-3 px-3">Thu ngân viên</th>
+                        <th class="py-3 px-3">Ghi chú</th>
+                        <th class="py-3 px-3">Thời gian ghi chú</th>
+                        <th class="py-3 px-3 text-center w-16">Xóa</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 text-slate-700 font-semibold">
+                    ${dsLoc.map((item, idx) => {
+                        const tnvShow = layKhoaThuNganBaoCao(item.thuNganVien, item.thuNganVienHienThi) || '--';
+                        const tramCot = [item.tram, item.cot].filter(Boolean).join(' / ') || '--';
+                        return `
+                            <tr class="hover:bg-blue-50/40">
+                                <td class="py-2.5 px-3 text-center font-bold text-slate-500">${idx + 1}</td>
+                                <td class="py-2.5 px-3 font-mono font-bold text-slate-800 whitespace-nowrap">${thoatHtmlThongBao(item.maKH || '--')}</td>
+                                ${coMaDiemDo ? `<td class="py-2.5 px-3 font-mono font-bold text-slate-700 whitespace-nowrap">${thoatHtmlThongBao(item.maDiemDo || '')}</td>` : ''}
+                                <td class="py-2.5 px-3">
+                                    <div class="font-bold text-evnDark">${thoatHtmlThongBao(item.tenKH || '--')}</div>
+                                    ${item.sdt ? `<div class="text-[11px] font-mono text-slate-500">${thoatHtmlThongBao(item.sdt)}</div>` : ''}
+                                    ${item.diaChi ? `<div class="text-[11px] text-slate-400">${thoatHtmlThongBao(item.diaChi)}</div>` : ''}
+                                </td>
+                                <td class="py-2.5 px-3 whitespace-nowrap">${thoatHtmlThongBao(tramCot)}</td>
+                                <td class="py-2.5 px-3">${thoatHtmlThongBao(tnvShow)}</td>
+                                <td class="py-2.5 px-3 font-bold text-rose-700 max-w-xs break-words">${thoatHtmlThongBao(item.noiDung)}</td>
+                                <td class="py-2.5 px-3 whitespace-nowrap text-slate-600">${thoatHtmlThongBao(item.thoiGianHienThi || NHAN_THOI_GIAN_CHUA_XAC_DINH)}</td>
+                                <td class="py-2.5 px-3 text-center">
+                                    <button type="button" data-entry-id="${thoatHtmlThongBao(item.id)}" onclick="xacNhanXoaLuotGhiChu(this.getAttribute('data-entry-id'), false)" class="text-[11px] font-bold text-rose-600 hover:text-rose-800 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-2 py-1 rounded-lg">Xóa</button>
+                                </td>
+                            </tr>
+                        `;
+                    }).join('')}
+                </tbody>
+            </table>
+        </div>
+    `;
+
+    listEl.innerHTML = mobileCardsHtml + desktopTableHtml;
+}
+
+function chuanHoaTenFileKhongDau(text) {
+    const cleaned = String(text || '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/đ/g, 'd')
+        .replace(/Đ/g, 'D')
+        .replace(/[^a-zA-Z0-9]+/g, '_')
+        .replace(/^_+|_+$/g, '');
+    return cleaned || 'TatCaTNV';
+}
+
+function taoTenFileBaoCaoGhiChu(tenTNVHienThi, thoiDiemXuat) {
+    const tn = (!tenTNVHienThi || tenTNVHienThi === 'Tất cả Thu ngân viên')
+        ? 'TatCaTNV'
+        : chuanHoaTenFileKhongDau(tenTNVHienThi);
+    const tg = dinhDangThoiGianVN(thoiDiemXuat || new Date());
+    return `BaoCaoGhiChu_${tn}_${tg.fileStamp}.xlsx`;
+}
+
+function chuanBiDuLieuBangExcelBaoCaoGhiChu(entries, options) {
+    const opts = options || {};
+    const ds = Array.isArray(entries) ? entries : [];
+    const thoiDiem = dinhDangThoiGianVN(opts.thoiDiemXuat || new Date());
+    const tenTNVHienThi = xacDinhTenTNVChoXuatBaoCao(ds, opts.tenTNVChon || '');
+    const cheDoNgay = opts.cheDoNgay || 'theo-ngay';
+    let nhanNgayBaoCao = 'Tất cả các ngày';
+    if (cheDoNgay === 'theo-ngay') {
+        nhanNgayBaoCao = dinhDangNgayISOThanhVN(opts.ngayISO) || thoiDiem.ngayVN;
+    } else if (cheDoNgay === 'chua-xac-dinh') {
+        nhanNgayBaoCao = NHAN_THOI_GIAN_CHUA_XAC_DINH;
+    }
+
+    const coMaDiemDo = Boolean(opts.coMaDiemDo) || ds.some(item => item && chuoiAnToanKhongEpKhong(item.maDiemDo) !== '');
+    const donViHoa = (window.UNIT_CONFIG && window.UNIT_CONFIG.ten_dien_luc_hoa) || 'ĐIỆN LỰC THIỆU HÓA';
+
+    const headers = [
+        'STT',
+        'MÃ KHÁCH HÀNG',
+        ...(coMaDiemDo ? ['MÃ ĐIỂM ĐO'] : []),
+        'TÊN KHÁCH HÀNG',
+        'ĐỊA CHỈ',
+        'SỐ ĐIỆN THOẠI',
+        'TRẠM',
+        'SỐ CỘT',
+        'SỐ TIỀN NỢ',
+        'THU NGÂN VIÊN',
+        'GHI CHÚ',
+        'THỜI GIAN GHI CHÚ'
+    ];
+
+    const aoa = [
+        [`BÁO CÁO GHI CHÚ KHÁCH HÀNG - ${donViHoa}`],
+        [`Thu ngân viên: ${tenTNVHienThi}`],
+        [`Ngày báo cáo: ${nhanNgayBaoCao}`],
+        [`Thời điểm xuất/chia sẻ: ${thoiDiem.hienThi}`],
+        [],
+        headers
+    ];
+
+    ds.forEach((item, idx) => {
+        const tnvShow = layKhoaThuNganBaoCao(item.thuNganVien, item.thuNganVienHienThi);
+        const row = [
+            idx + 1,
+            chuoiAnToanKhongEpKhong(item.maKH),
+            ...(coMaDiemDo ? [chuoiAnToanKhongEpKhong(item.maDiemDo)] : []),
+            chuoiAnToanKhongEpKhong(item.tenKH),
+            chuoiAnToanKhongEpKhong(item.diaChi),
+            chuoiAnToanKhongEpKhong(item.sdt),
+            chuoiAnToanKhongEpKhong(item.tram),
+            chuoiAnToanKhongEpKhong(item.cot),
+            chuoiAnToanKhongEpKhong(item.soTienNo),
+            chuoiAnToanKhongEpKhong(tnvShow),
+            chuoiAnToanKhongEpKhong(item.noiDung),
+            chuoiAnToanKhongEpKhong(item.thoiGianHienThi) || NHAN_THOI_GIAN_CHUA_XAC_DINH
+        ];
+        aoa.push(row);
+    });
+
+    return {
+        aoa,
+        headers,
+        coMaDiemDo,
+        tenTNVHienThi,
+        nhanNgayBaoCao,
+        thoiDiemXuat: thoiDiem,
+        tenFile: taoTenFileBaoCaoGhiChu(tenTNVHienThi, opts.thoiDiemXuat || new Date())
+    };
+}
+
+function taoWorkbookBaoCaoGhiChu(XLSXLib, entries, options) {
+    const ketQua = chuanBiDuLieuBangExcelBaoCaoGhiChu(entries, options);
+    const wb = XLSXLib.utils.book_new();
+    const ws = XLSXLib.utils.aoa_to_sheet(ketQua.aoa);
+
+    const tongSoCot = ketQua.headers.length;
+    const tongSoDong = ketQua.aoa.length;
+
+    // Đảm bảo tất cả ô văn bản/định danh có kiểu chuỗi ('s') và định dạng Text ('@'),
+    // không làm mất số 0 đầu ('00123'), không đổi ô trống thành 0 và không bị Excel hiểu thành công thức.
+    for (let r = 0; r < tongSoDong; r++) {
+        for (let c = 0; c < tongSoCot; c++) {
+            const addr = XLSXLib.utils.encode_cell({ r, c });
+            const cell = ws[addr];
+            if (!cell) continue;
+            if (r >= 6 && c === 0) {
+                cell.t = 'n';
+                cell.v = Number(ketQua.aoa[r][c]);
+                continue;
+            }
+            const strVal = cell.v === null || cell.v === undefined ? '' : String(cell.v);
+            cell.t = 's';
+            cell.v = strVal;
+            cell.z = '@';
+            if (Object.prototype.hasOwnProperty.call(cell, 'f')) {
+                delete cell.f;
+            }
+        }
+    }
+
+    ws['!merges'] = [
+        { s: { r: 0, c: 0 }, e: { r: 0, c: tongSoCot - 1 } },
+        { s: { r: 1, c: 0 }, e: { r: 1, c: tongSoCot - 1 } },
+        { s: { r: 2, c: 0 }, e: { r: 2, c: tongSoCot - 1 } },
+        { s: { r: 3, c: 0 }, e: { r: 3, c: tongSoCot - 1 } }
+    ];
+
+    const colWidths = [
+        { wch: 6 },  // STT
+        { wch: 18 }, // Mã KH
+        ...(ketQua.coMaDiemDo ? [{ wch: 18 }] : []), // Mã ĐĐO
+        { wch: 26 }, // Tên KH
+        { wch: 30 }, // Địa chỉ
+        { wch: 15 }, // SĐT
+        { wch: 18 }, // Trạm
+        { wch: 10 }, // Số cột
+        { wch: 15 }, // Số tiền nợ
+        { wch: 22 }, // Thu ngân viên
+        { wch: 36 }, // Ghi chú
+        { wch: 24 }  // Thời gian ghi chú
+    ];
+    ws['!cols'] = colWidths;
+
+    XLSXLib.utils.book_append_sheet(wb, ws, 'BaoCaoGhiChu');
+    return {
+        workbook: wb,
+        ...ketQua
+    };
+}
+
+function hienThongBaoXuatBaoCao(noiDungHtml, loai) {
+    const el = document.getElementById('thong-bao-xuat-baocao');
+    if (!el) return;
+    if (!noiDungHtml) {
+        el.classList.add('hidden');
+        el.innerHTML = '';
+        return;
+    }
+    const mauTheoLoai = {
+        success: 'bg-emerald-50 border-emerald-200 text-emerald-900',
+        info: 'bg-blue-50 border-blue-200 text-blue-900',
+        warn: 'bg-amber-50 border-amber-200 text-amber-900',
+        error: 'bg-rose-50 border-rose-200 text-rose-900'
+    };
+    el.className = `rounded-xl border px-4 py-3 text-xs md:text-sm font-semibold ${mauTheoLoai[loai] || mauTheoLoai.info}`;
+    el.innerHTML = noiDungHtml;
+}
+
+function taiFileBlobBaoCao(blob, tenFile) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = tenFile;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => {
+        try { URL.revokeObjectURL(url); } catch (e) {}
+    }, 1000);
+}
+
+let tinNhanBaoCaoZaloGanNhat = null;
+
+function taoNoiDungTinNhanBaoCaoGhiChu(entries, ketQua) {
+    const ds = Array.isArray(entries) ? entries : [];
+    const donViHoa = (window.UNIT_CONFIG && window.UNIT_CONFIG.ten_dien_luc_hoa) || 'ĐIỆN LỰC THIỆU HÓA';
+    const soKHDuyNhat = new Set(ds.map(item => `${item.maKH || ''}||${item.maDiemDo || ''}`)).size;
+    const dongDau = [
+        `[${donViHoa}] BÁO CÁO GHI CHÚ KHÁCH HÀNG`,
+        `- Thu ngân viên: ${ketQua.tenTNVHienThi}`,
+        `- Ngày báo cáo: ${ketQua.nhanNgayBaoCao}`,
+        `- Thời điểm xuất/chia sẻ: ${ketQua.thoiDiemXuat.hienThi}`,
+        `- Tổng số lượt ghi chú: ${ds.length} (${soKHDuyNhat} khách hàng)`,
+        `- Tệp Excel: ${ketQua.tenFile}`,
+        ''
+    ];
+
+    const dongChiTiet = ds.map((item, idx) => {
+        const chiTietPhu = [`Mã KH: ${chuoiAnToanKhongEpKhong(item.maKH) || '--'}`];
+        if (chuoiAnToanKhongEpKhong(item.maDiemDo)) {
+            chiTietPhu.push(`ĐĐO: ${chuoiAnToanKhongEpKhong(item.maDiemDo)}`);
+        }
+        if (chuoiAnToanKhongEpKhong(item.sdt)) {
+            chiTietPhu.push(`SĐT: ${chuoiAnToanKhongEpKhong(item.sdt)}`);
+        }
+        const tramCot = [chuoiAnToanKhongEpKhong(item.tram), chuoiAnToanKhongEpKhong(item.cot)].filter(Boolean).join(' / ');
+        if (tramCot) {
+            chiTietPhu.push(`Trạm/Cột: ${tramCot}`);
+        }
+        return `${idx + 1}. ${chuoiAnToanKhongEpKhong(item.tenKH) || '--'} (${chiTietPhu.join(' | ')})\n   • Ghi chú: ${chuoiAnToanKhongEpKhong(item.noiDung)}\n   • Thời gian: ${chuoiAnToanKhongEpKhong(item.thoiGianHienThi) || NHAN_THOI_GIAN_CHUA_XAC_DINH}`;
+    });
+
+    return dongDau.concat(dongChiTiet).join('\n');
+}
+
+function taoLinkMoAppZalo() {
+    const ua = (typeof navigator !== 'undefined' && navigator.userAgent) || '';
+    if (/Android/i.test(ua)) {
+        return 'intent://#Intent;package=com.zing.zalo;scheme=zalo;S.browser_fallback_url=https%3A%2F%2Fzalo.me;end';
+    }
+    return 'zalo://';
+}
+
+function copyTextBaoCaoDongBo(text) {
+    try {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.setAttribute('readonly', '');
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '0';
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        const ok = typeof document.execCommand === 'function' ? document.execCommand('copy') : false;
+        document.body.removeChild(textarea);
+        return Boolean(ok);
+    } catch (e) {
+        return false;
+    }
+}
+
+function moUngDungZaloTrucTiep() {
+    const zaloUrl = taoLinkMoAppZalo();
+    try {
+        window.location.href = zaloUrl;
+    } catch (e) {}
+    return zaloUrl;
+}
+
+function taoThanhNutMoZaloHTML() {
+    const zaloHref = thoatHtmlThongBao(taoLinkMoAppZalo());
+    return `
+        <div class="mt-2.5 flex flex-wrap items-center gap-2">
+            <a href="${zaloHref}" class="px-3.5 py-2 rounded-xl bg-evnBlue hover:bg-blue-800 text-white font-extrabold text-xs shadow-sm inline-flex items-center gap-1.5">💬 Mở ứng dụng Zalo ngay</a>
+            <button type="button" onclick="guiLaiTinNhanBaoCaoZalo()" class="px-3.5 py-2 rounded-xl bg-white hover:bg-slate-100 text-evnBlue border border-blue-200 font-bold text-xs shadow-sm">📤 Chia sẻ / Copy lại</button>
+        </div>
+    `;
+}
+
+function moZaloVoiTinNhanBaoCao(msg, tenFile) {
+    const proto = (typeof window !== 'undefined' && window.location && window.location.protocol) || '';
+    const dangMoFileNgoaiTuyen = proto === 'content:' || proto === 'file:';
+    const ghiChuNgoaiTuyen = dangMoFileNgoaiTuyen
+        ? '<br><span class="text-amber-800 font-semibold">Lưu ý: Bạn đang mở tệp HTML trực tiếp (content:// / file://) nên trình duyệt tắt bảng chia sẻ nhanh; khi mở qua link web https:// sẽ tự bật bảng chọn Zalo.</span>'
+        : '';
+    const thanhNut = taoThanhNutMoZaloHTML();
+
+    const hienThongBaoVaMo = (daCopy) => {
+        hienThongBaoXuatBaoCao(
+            `✅ Đã tải tệp Excel <b>${thoatHtmlThongBao(tenFile)}</b>${daCopy ? ' và copy sẵn nội dung báo cáo' : ''}.<br>` +
+            `<span class="font-normal">Trong <b>Zalo</b>, chọn người/nhóm → bấm <b>Dán</b> để gửi nội dung, hoặc bấm biểu tượng <b>đính kèm tệp</b> chọn tệp Excel vừa tải. Lịch sử ghi chú trên máy vẫn được giữ nguyên.</span>${ghiChuNgoaiTuyen}${thanhNut}`,
+            'success'
+        );
+        moUngDungZaloTrucTiep();
+    };
+
+    if (typeof navigator !== 'undefined' && navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+        navigator.clipboard.writeText(msg).then(() => hienThongBaoVaMo(true)).catch(() => {
+            const okSync = copyTextBaoCaoDongBo(msg);
+            hienThongBaoVaMo(okSync);
+        });
+        return;
+    }
+
+    // Chạy đồng bộ trong cùng thao tác bấm trên content:// hoặc file:// để giữ nguyên user activation khi mở Zalo Intent
+    const okSync = copyTextBaoCaoDongBo(msg);
+    hienThongBaoVaMo(okSync);
+}
+
+async function guiLaiTinNhanBaoCaoZalo() {
+    if (!tinNhanBaoCaoZaloGanNhat) return { status: 'empty' };
+    const { title, text, tenFile } = tinNhanBaoCaoZaloGanNhat;
+    const isMobile = /iPhone|iPad|iPod|Android/i.test((typeof navigator !== 'undefined' && navigator.userAgent) || '');
+    if (typeof navigator !== 'undefined' && typeof navigator.share === 'function' && isMobile) {
+        try {
+            await navigator.share({ title, text });
+            return { status: 'shared-text', tenFile };
+        } catch (error) {
+            if (error && error.name === 'AbortError') {
+                return { status: 'aborted', tenFile };
+            }
+        }
+    }
+    moZaloVoiTinNhanBaoCao(text, tenFile);
+    return { status: 'zalo-link', tenFile };
+}
+
+async function xuatVaChiaSeBaoCaoGhiChu(cheDo) {
+    const boLoc = layBoLocBaoCaoHienTai();
+    const dsLoc = locLichSuGhiChuBaoCao(lichSuGhiChu.entries, boLoc);
+
+    if (dsLoc.length === 0) {
+        hienThongBaoXuatBaoCao('Chưa có lượt ghi chú nào phù hợp bộ lọc để xuất báo cáo.', 'warn');
+        return { status: 'empty' };
+    }
+
+    if (typeof XLSX === 'undefined') {
+        hienThongBaoXuatBaoCao('Chưa tải được thư viện xuất Excel. Vui lòng kiểm tra mạng và tải lại trang.', 'error');
+        return { status: 'no-xlsx' };
+    }
+
+    const thoiDiemXuat = new Date();
+    const ketQua = taoWorkbookBaoCaoGhiChu(XLSX, dsLoc, {
+        cheDoNgay: boLoc.cheDoNgay,
+        ngayISO: boLoc.ngayISO,
+        tenTNVChon: boLoc.tenTNV,
+        coMaDiemDo: Boolean(cotMaDDO_global),
+        thoiDiemXuat
+    });
+
+    const excelBytes = XLSX.write(ketQua.workbook, { bookType: 'xlsx', type: 'array' });
+    const mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+    const blob = new Blob([excelBytes], { type: mimeType });
+
+    if (cheDo === 'zalo') {
+        const tieuDeChiaSe = `Báo cáo ghi chú - ${ketQua.tenTNVHienThi}`;
+        const msgZalo = taoNoiDungTinNhanBaoCaoGhiChu(dsLoc, ketQua);
+        tinNhanBaoCaoZaloGanNhat = { title: tieuDeChiaSe, text: msgZalo, tenFile: ketQua.tenFile };
+        const isMobile = /iPhone|iPad|iPod|Android/i.test((typeof navigator !== 'undefined' && navigator.userAgent) || '');
+        const thanhNut = taoThanhNutMoZaloHTML();
+
+        // Ưu tiên 1: Thiết bị hỗ trợ chia sẻ trực tiếp tệp .xlsx qua bảng chia sẻ hệ thống
+        let coTheChiaSeFile = false;
+        let file = null;
+        if (typeof File === 'function' && typeof navigator !== 'undefined' && typeof navigator.canShare === 'function' && typeof navigator.share === 'function') {
+            try {
+                file = new File([blob], ketQua.tenFile, { type: mimeType });
+                coTheChiaSeFile = Boolean(navigator.canShare({ files: [file] }));
+            } catch (e) {
+                coTheChiaSeFile = false;
+            }
+        }
+
+        if (coTheChiaSeFile && file) {
+            try {
+                await navigator.share({
+                    files: [file],
+                    title: tieuDeChiaSe,
+                    text: msgZalo
+                });
+                hienThongBaoXuatBaoCao(
+                    `✅ Đã tạo tệp <b>${thoatHtmlThongBao(ketQua.tenFile)}</b> và mở bảng chia sẻ. Chọn <b>Zalo</b> và nhóm/người nhận để gửi. Lịch sử ghi chú trên máy vẫn được giữ nguyên.${thanhNut}`,
+                    'success'
+                );
+                return { status: 'shared', tenFile: ketQua.tenFile };
+            } catch (error) {
+                if (error && error.name === 'AbortError') {
+                    hienThongBaoXuatBaoCao(
+                        `ℹ️ Bạn đã hủy chia sẻ. Dữ liệu ghi chú trên máy vẫn được giữ nguyên.${thanhNut}`,
+                        'info'
+                    );
+                    return { status: 'aborted', tenFile: ketQua.tenFile };
+                }
+            }
+        }
+
+        // Ưu tiên 2: Trên điện thoại qua https:// (có navigator.share nhưng Chrome chặn chia sẻ tệp .xlsx)
+        // Gọi navigator.share({ text }) TRƯỚC để không bị tải file làm mất user gesture, sau đó lưu sẵn file .xlsx về máy
+        if (typeof navigator !== 'undefined' && typeof navigator.share === 'function' && isMobile) {
+            try {
+                await navigator.share({
+                    title: tieuDeChiaSe,
+                    text: msgZalo
+                });
+                taiFileBlobBaoCao(blob, ketQua.tenFile);
+                hienThongBaoXuatBaoCao(
+                    `✅ Đã mở bảng chia sẻ sang <b>Zalo</b> và lưu sẵn tệp Excel <b>${thoatHtmlThongBao(ketQua.tenFile)}</b> về máy.<br>` +
+                    `<span class="font-normal">Nếu cần đính kèm bản Excel trong Zalo, chọn biểu tượng <b>đính kèm tệp</b> → chọn tệp vừa tải trong mục Tải xuống. Lịch sử ghi chú trên máy vẫn được giữ nguyên.</span>${thanhNut}`,
+                    'success'
+                );
+                return { status: 'downloaded-and-shared-text', tenFile: ketQua.tenFile };
+            } catch (error) {
+                if (error && error.name === 'AbortError') {
+                    hienThongBaoXuatBaoCao(
+                        `ℹ️ Bạn đã hủy chia sẻ Zalo. Dữ liệu ghi chú trên máy vẫn được giữ nguyên.${thanhNut}`,
+                        'info'
+                    );
+                    return { status: 'aborted', tenFile: ketQua.tenFile };
+                }
+                taiFileBlobBaoCao(blob, ketQua.tenFile);
+                moZaloVoiTinNhanBaoCao(msgZalo, ketQua.tenFile);
+                return { status: 'downloaded-and-zalo-link', tenFile: ketQua.tenFile };
+            }
+        }
+
+        // Ưu tiên 3: Máy tính hoặc mở trực tiếp file HTML ngoại tuyến (content:// / file:// không có navigator.share)
+        // Tải file Excel, copy nội dung đồng bộ và tự kích hoạt link mở app Zalo (Intent trên Android / zalo:// trên iOS & máy tính)
+        taiFileBlobBaoCao(blob, ketQua.tenFile);
+        moZaloVoiTinNhanBaoCao(msgZalo, ketQua.tenFile);
+        return { status: 'downloaded-and-zalo-link', tenFile: ketQua.tenFile };
+    }
+
+    taiFileBlobBaoCao(blob, ketQua.tenFile);
+    hienThongBaoXuatBaoCao(
+        `✅ Đã tải tệp báo cáo <b>${thoatHtmlThongBao(ketQua.tenFile)}</b> (${dsLoc.length} lượt ghi chú). Lịch sử ghi chú trên máy vẫn được giữ nguyên.`,
+        'success'
+    );
+    return { status: 'downloaded', tenFile: ketQua.tenFile };
+}
+
+(function ganSuKienModalGhiChu() {
+    const modal = document.getElementById('modal-ghi-chu');
+    if (modal) {
+        modal.addEventListener('click', function(event) {
+            if (event.target === modal) dongModalGhiChu();
+        });
+    }
+    const inputGhiChu = document.getElementById('input-ghi-chu-noi-dung');
+    if (inputGhiChu) {
+        inputGhiChu.addEventListener('input', function() {
+            if (boNhanDangGiongNoi) {
+                dungNhanDangGiongNoi(true);
+                hienTrangThaiGiongNoi('Đã dừng micro để giữ nguyên nội dung bạn vừa chỉnh sửa.', 'info');
+            }
+        });
+    }
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            const m = document.getElementById('modal-ghi-chu');
+            if (m && !m.classList.contains('hidden')) dongModalGhiChu();
+        }
+    });
+    if (typeof window !== 'undefined' && typeof window.addEventListener === 'function') {
+        window.addEventListener('storage', function(event) {
+            if (!event || event.key === STORAGE_NOTE_HISTORY_KEY || event.key === STORAGE_NOTE_KEY) {
+                khoiTaoLichSuGhiChu();
+                capNhatBoLocTNVBaoCao();
+                capNhatBadgeBaoCao();
+                capNhatTabBaoCao();
+                if (trangThaiModalGhiChu.maKH) {
+                    const m = document.getElementById('modal-ghi-chu');
+                    if (m && !m.classList.contains('hidden')) {
+                        renderLichSuTrongModal(trangThaiModalGhiChu.maKH);
+                    }
+                }
+            }
+        });
+    }
+})();
+
 
 // Khởi chạy ngay khi mở web
+
+khoiTaoCacheTick();
+khoiTaoNgayMacDinhBaoCao();
+capNhatBoLocTNVBaoCao();
+capNhatBadgeBaoCao();
 
 setupChuKyIn();
 
