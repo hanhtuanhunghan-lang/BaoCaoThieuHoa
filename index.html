@@ -5283,6 +5283,18 @@ function taoTenFileBaoCaoGhiChu(tenTNVHienThi, thoiDiemXuat) {
     return `BaoCaoGhiChu_${tn}_${tg.fileStamp}.xlsx`;
 }
 
+function taoTenFileChiaSeNhanhCsv(tenTNVHienThi, thoiDiemXuat) {
+    const tn = (!tenTNVHienThi || tenTNVHienThi === 'Tất cả Thu ngân viên')
+        ? 'TatCaTNV'
+        : chuanHoaTenFileKhongDau(tenTNVHienThi);
+    const tg = dinhDangThoiGianVN(thoiDiemXuat || new Date());
+    const [dd = '', mm = ''] = String(tg.ngayVN || '').split('/');
+    const [hh = '', mi = ''] = String(tg.gioVN || '').split(':');
+    const mocNgan = (dd && mm && hh && mi) ? `${dd}${mm}_${hh}h${mi}` : tg.fileStamp;
+    // Đưa tên Thu ngân viên ra cuối để dù Chrome Android gắn UUID ở đầu và Zalo rút gọn giữa tên tệp thì vẫn thấy tên TNV
+    return `${mocNgan}_${tn}.csv`;
+}
+
 function chuanBiDuLieuBangExcelBaoCaoGhiChu(entries, options) {
     const opts = options || {};
     const ds = Array.isArray(entries) ? entries : [];
@@ -5641,7 +5653,7 @@ async function xuatVaChiaSeBaoCaoGhiChu(cheDo) {
 
             if (!fileDeChiaSe) {
                 try {
-                    const tenFileCsv = ketQua.tenFile.replace(/\.xlsx$/i, '.csv');
+                    const tenFileCsv = taoTenFileChiaSeNhanhCsv(ketQua.tenTNVHienThi, thoiDiemXuat);
                     const csvContent = taoNoiDungCsvBaoCaoGhiChu(ketQua);
                     const fileCsv = new File([csvContent], tenFileCsv, { type: 'text/csv' });
                     if (navigator.canShare({ files: [fileCsv] })) {
